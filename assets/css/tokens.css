@@ -1,0 +1,44 @@
+/* assets/css/tokens.css: colors + fonts ONLY. The one file to edit to re-skin.
+   Cadejo Brewing Company, cervezacadejo.com
+   PROVISIONAL: taken from Cadejo's own logo, beer glass illustrations and icons.
+   Replace with the brand manual values once Cadejo sends it. */
+:root{
+  /* Base (dark site) */
+  --bg:          #121312;   /* near black, from the glass illustration outlines */
+  --bg-soft:     #1C1B19;   /* cards, alternating sections */
+  --line:        #3E3935;   /* warm gray, from the ingredient icons */
+  --ink:         #F5F2EC;   /* main text on dark */
+  --ink-soft:    #BFB5A9;   /* secondary text, from the ingredient icons */
+
+  /* Beer colors, from Cadejo's glass illustrations */
+  --amber:       #BF3F20;
+  --blonde:      #F6AE0F;
+  --dark-beer:   #63181D;
+  --foam:        #DAEFF7;
+
+  /* Accent, from the ingredient icons */
+  --accent:      #EB7439;
+  --cta:         var(--blonde);
+  --cta-ink:     #121312;   /* text on CTA buttons */
+
+  /* Footer (the EKY credit reads these) */
+  --footer-bg:   #0C0D0C;
+  --footer-fg:   #F5F2EC;
+
+  /* Fonts: open licenses only (all on Google Fonts)
+     Diego (Oct 19): no single main font. Bars use Veneer with distortion,
+     Montaña / Mansión / general pages use a soberer title font,
+     body is any sans serif that fits, Montserrat is used sometimes.
+     Veneer is not licensed for the web, so:
+       --font-display-sober = Antonio (in Cadejo's folder, SIL OFL)
+       --font-display-loud  = Bebas Neue (open version of their Bebas) + distressed texture in CSS
+       --font-body          = Montserrat */
+  --font-display-sober: 'Antonio', 'Bebas Neue', Impact, sans-serif;
+  --font-display-loud:  'Bebas Neue', 'Antonio', Impact, sans-serif;
+  --font-display:       var(--font-display-sober);
+  --font-body:          'Montserrat', system-ui, sans-serif;
+
+  /* Layout */
+  --max: 1200px;
+  --radius: 6px;
+}
