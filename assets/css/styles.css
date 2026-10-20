@@ -211,3 +211,63 @@ p{margin:0 0 1em}
 .ev p{color:var(--ink-soft)}
 .ev a{color:var(--blonde)}
 .branch__go a.branch__page{background:var(--cta);color:var(--cta-ink);border-color:var(--cta)}
+
+/* ===== Motion layer (only when JS adds .motion; nothing moves for reduced-motion visitors) ===== */
+.motion .rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--rv-delay,0ms)}
+.motion .rv.is-in{opacity:1;transform:none}
+.motion .section h2.rv{transform:translateY(34px) skewY(2deg);transform-origin:left}
+
+/* first screen: one load sequence */
+.motion .hero__place,.motion .hero__claim,.motion .hero h1,.motion .hero__actions,.motion .hero .draft-note,
+.motion .page-hero__content > *{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.motion.is-loaded .hero__place,.motion.is-loaded .page-hero__content > *:nth-child(1){transition-delay:.1s}
+.motion.is-loaded .hero__claim,.motion.is-loaded .page-hero__content > *:nth-child(2){transition-delay:.25s}
+.motion.is-loaded .hero h1,.motion.is-loaded .page-hero__content > *:nth-child(3){transition-delay:.55s}
+.motion.is-loaded .hero__actions,.motion.is-loaded .page-hero__content > *:nth-child(4){transition-delay:.75s}
+.motion.is-loaded .hero .draft-note,.motion.is-loaded .page-hero__content > *:nth-child(n+5){transition-delay:.9s}
+.motion.is-loaded .hero__place,.motion.is-loaded .hero__claim,.motion.is-loaded .hero h1,.motion.is-loaded .hero__actions,.motion.is-loaded .hero .draft-note,
+.motion.is-loaded .page-hero__content > *{opacity:1;transform:none}
+.hero__reel,.page-hero__img{will-change:transform}
+.page-hero{overflow:hidden}
+
+/* header slides away on the way down */
+.site-header{transition:background .3s,transform .35s ease}
+.site-header.is-hidden{transform:translateY(-100%)}
+
+/* the cadejo that walks beside you */
+.runner{position:fixed;left:clamp(1rem,4vw,2.5rem);right:clamp(1rem,4vw,2.5rem);bottom:14px;height:34px;z-index:40;pointer-events:none;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+.runner.is-on{opacity:.9;transform:none}
+.runner__track{position:absolute;left:0;right:0;bottom:3px;height:2px;background:rgba(245,242,236,.12);border-radius:2px;overflow:hidden}
+.runner__trail{position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--blonde));transform-origin:left;transform:scaleX(0)}
+.runner__dog{position:absolute;left:0;bottom:4px;height:30px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.runner__dog{transition:none}
+.runner.is-running .runner__dog{animation:trot .32s steps(2) infinite}
+@keyframes trot{0%{margin-bottom:0}50%{margin-bottom:4px}100%{margin-bottom:0}}
+@media (max-width:600px){.runner{bottom:10px;height:28px}.runner__dog{height:24px}}
+
+/* photos: hover lift on cards, parallax inside frames */
+.branch img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.branch{transition:transform .35s ease,box-shadow .35s ease}
+.branch:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.branch:hover img{transform:scale(1.05)}
+.branch{overflow:hidden}
+.motion .dishes img{transform:scale(1.12);transition:transform .1s linear}
+.motion .branch.rv.is-in:hover{transform:translateY(-4px)}
+.gallery img{transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
+.gallery img:hover{transform:scale(1.03);filter:brightness(1.08)}
+
+/* beers drift on their own */
+.beers.is-auto{scroll-snap-type:none;scrollbar-width:none}
+.beers.is-auto::-webkit-scrollbar{display:none}
+.beer{transition:transform .35s ease,border-color .35s}
+.beer:hover{transform:translateY(-6px);border-color:var(--blonde)}
+
+/* finder chip feedback */
+.chip span.pop{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.92)}100%{transform:scale(1)}}
+.chip span:hover{transform:translateY(-2px)}
+.chip span{transition:background .15s,color .15s,transform .2s}
+
+/* legend illustration breathes */
+.motion .legend img.is-in{animation:prowl 6s ease-in-out infinite}
+@keyframes prowl{0%,100%{transform:translateX(0)}50%{transform:translateX(-12px)}}

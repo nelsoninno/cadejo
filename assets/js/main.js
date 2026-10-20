@@ -113,3 +113,110 @@
     });
   }
 })();
+
+/* ===== Motion layer: makes scrolling feel alive. Off when the visitor prefers reduced motion. ===== */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var root = document.documentElement;
+  root.classList.add('motion');
+  var base = (document.querySelector('link[href$="tokens.css"]') || {}).getAttribute ? document.querySelector('link[href$="tokens.css"]').getAttribute('href').replace('assets/css/tokens.css','') : '';
+
+  /* 1. Page-load sequence for the first screen (one orchestrated moment). */
+  requestAnimationFrame(function(){ root.classList.add('is-loaded'); });
+
+  /* 2. Reveal blocks as they enter the screen, staggered inside each group. */
+  var sel = ['.section h2','.lead','.moment','.branch-grid .branch','.dishes figure','.faq details','.fact','.gallery img','.ev','.other','.menu__sec','.split > *','.legend > *','.group-title','.group-sub','.seasonal img','.b2b .wrap > *','.finder__q'];
+  var items = [].slice.call(document.querySelectorAll(sel.join(',')));
+  /* skip anything already inside another revealed block, so nothing animates twice */
+  items = items.filter(function(el){ return !items.some(function(o){ return o !== el && o.contains(el); }); });
+  items.forEach(function(el){
+    el.classList.add('rv');
+    var sibs = [].filter.call(el.parentNode.children, function(c){ return c.classList.contains('rv') || items.indexOf(c) > -1; });
+    var k = Math.max(0, sibs.indexOf(el));
+    el.style.setProperty('--rv-delay', Math.min(k, 8) * 70 + 'ms');
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.08});
+  items.forEach(function(el){ io.observe(el); });
+  /* cards cloned into finder results should appear at once */
+  var results = document.querySelector('.results-grid');
+  if (results) new MutationObserver(function(){
+    [].forEach.call(results.children, function(c,k){ c.classList.remove('is-in'); c.style.setProperty('--rv-delay', k*90+'ms'); requestAnimationFrame(function(){ requestAnimationFrame(function(){ c.classList.add('is-in'); }); }); });
+  }).observe(results, {childList:true});
+
+  /* 3. The cadejo that walks beside you: a small running silhouette follows the scroll. */
+  var runner = document.createElement('div');
+  runner.className = 'runner'; runner.setAttribute('aria-hidden','true');
+  runner.innerHTML = '<div class="runner__track"><div class="runner__trail"></div></div><img class="runner__dog" alt="" src="' + base + 'assets/images/illustrations/cadejo-dog-silhouette-01-white-cervezacadejo.com.webp">';
+  document.body.appendChild(runner);
+  var dog = runner.querySelector('.runner__dog'), trail = runner.querySelector('.runner__trail');
+
+  /* 4. Scroll-linked effects in one animation frame loop. */
+  var header = document.querySelector('.site-header');
+  var heroImgs = [].slice.call(document.querySelectorAll('.hero__reel, .page-hero__img'));
+  var para = [].slice.call(document.querySelectorAll('.dishes img'));
+  var lastY = window.scrollY, ticking = false, runTimer;
+  function frame(){
+    ticking = false;
+    var y = window.scrollY, vh = window.innerHeight;
+    var max = Math.max(1, document.documentElement.scrollHeight - vh);
+    var p = Math.min(1, Math.max(0, y / max));
+    /* runner position and visibility */
+    var w = runner.clientWidth - dog.clientWidth;
+    dog.style.transform = 'translateX(' + (p * w) + 'px)';
+    trail.style.transform = 'scaleX(' + p + ')';
+    runner.classList.toggle('is-on', y > vh * 0.6 && p < 0.995);
+    /* header hides going down, returns going up */
+    if (header){
+      if (y > lastY + 6 && y > 220) header.classList.add('is-hidden');
+      else if (y < lastY - 6 || y < 220) header.classList.remove('is-hidden');
+    }
+    lastY = y;
+    /* hero drifts slower than the page */
+    heroImgs.forEach(function(el){ if (y < vh * 1.2) el.style.transform = 'translateY(' + (y * 0.28) + 'px)'; });
+    /* photos move a little inside their frames */
+    para.forEach(function(img){
+      var r = img.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      var c = (r.top + r.height / 2 - vh / 2) / vh;
+      img.style.transform = 'scale(1.12) translateY(' + (c * -6) + '%)';
+    });
+  }
+  window.addEventListener('scroll', function(){
+    runner.classList.add('is-running'); clearTimeout(runTimer);
+    runTimer = setTimeout(function(){ runner.classList.remove('is-running'); }, 180);
+    if (!ticking){ ticking = true; requestAnimationFrame(frame); }
+  }, {passive:true});
+  window.addEventListener('resize', frame);
+  frame();
+
+  /* 5. Beers drift sideways on their own; any touch, hover or focus hands control back. */
+  var strip = document.querySelector('.beers');
+  if (strip){
+    var orig = [].slice.call(strip.children);
+    orig.forEach(function(n){ var c = n.cloneNode(true); c.setAttribute('aria-hidden','true'); c.querySelectorAll('a,button').forEach(function(a){ a.tabIndex = -1; }); strip.appendChild(c); });
+    strip.classList.add('is-auto');
+    var paused = false, visible = false, resume;
+    var pause = function(){ paused = true; clearTimeout(resume); };
+    var later = function(){ clearTimeout(resume); resume = setTimeout(function(){ paused = false; }, 2500); };
+    ['mouseenter','touchstart','focusin','wheel','pointerdown'].forEach(function(ev){ strip.addEventListener(ev, pause, {passive:true}); });
+    ['mouseleave','touchend','focusout'].forEach(function(ev){ strip.addEventListener(ev, later, {passive:true}); });
+    new IntersectionObserver(function(e){ visible = e[0].isIntersecting; }).observe(strip);
+    var pos = 0;
+    (function drift(){
+      if (visible && !paused){
+        var half = strip.scrollWidth / 2;
+        pos = strip.scrollLeft + 0.5;
+        if (pos >= half) pos -= half;
+        strip.scrollLeft = pos;
+      }
+      requestAnimationFrame(drift);
+    })();
+  }
+
+  /* 6. Finder chips give a small bounce when picked. */
+  [].forEach.call(document.querySelectorAll('.chip input'), function(inp){
+    inp.addEventListener('change', function(){ var s = inp.nextElementSibling; s.classList.remove('pop'); void s.offsetWidth; s.classList.add('pop'); });
+  });
+})();
