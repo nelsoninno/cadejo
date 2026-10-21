@@ -28,11 +28,18 @@
     }
   }
 
-  /* Opening hours, America/El_Salvador. Only branches with confirmed hours.
+  /* Opening hours, America/El_Salvador. Hours from Cadejo's branch texts (Oct 21, 2026).
      Each day: [open, close] in minutes from midnight; close may pass 24:00. */
   var H = {
-    'zona-rosa':   {0:[660,1260],1:[660,1380],2:[660,1380],3:[660,1380],4:[660,1380],5:[660,1500],6:[660,1500]},
-    'santa-elena': {0:[660,1260],1:[660,1380],2:[660,1380],3:[660,1380],4:[660,1380],5:[660,1500],6:[660,1500]}
+    'playa': {0:[540,1140],1:[660,1200],2:[660,1200],3:[660,1200],4:[660,1200],5:[660,1380],6:[540,1380]},
+    'mansion': {0:[420,1260],1:[660,1380],2:[660,1380],3:[660,1380],4:[660,1380],5:[660,1440],6:[420,1440]},
+    'montana': {0:[420,1260],1:[660,1380],2:[660,1380],3:[660,1380],4:[660,1380],5:[660,1440],6:[420,1440]},
+    'zona-rosa': {0:[660,1260],1:[660,1380],2:[660,1380],3:[660,1380],4:[660,1380],5:[660,1500],6:[660,1500]},
+    'aeropuerto': {0:[300,1260],1:[300,1260],2:[300,1260],3:[300,1260],4:[300,1260],5:[300,1260],6:[300,1260]},
+    'santa-elena': {0:[660,1260],1:[660,1380],2:[660,1380],3:[660,1380],4:[660,1380],5:[660,1500],6:[660,1500]},
+    'soyapango': {0:[420,1260],1:[660,1380],2:[660,1380],3:[660,1380],4:[660,1380],5:[660,1500],6:[420,1500]},
+    'opico': {0:[660,1260],1:[660,1440],2:[660,1440],3:[660,1440],4:[660,1440],5:[660,1500],6:[660,1500]},
+    'guatemala': {0:[720,1200],1:[720,1320],2:[720,1440],3:[720,1440],4:[720,1500],5:[720,1500],6:[720,1500]}
   };
   var T = {
     en:{open:'Open now', closes:'closes at', closed:'Closed now', opens:'opens at', tbc:'Hours being confirmed'},
@@ -45,15 +52,17 @@
     return {d:days[o.weekday], m:(parseInt(o.hour,10)%24)*60 + parseInt(o.minute,10)};
   }
   function fmt(min){
-    min = min % 1440; var h = Math.floor(min/60), m = min % 60;
+    min = min % 1440; if (min === 0) return lang === 'es' ? 'medianoche' : 'midnight';
+    var h = Math.floor(min/60), m = min % 60;
     var ap = h >= 12 ? 'p.m.' : 'a.m.'; var h12 = h % 12 || 12;
     return h12 + (m ? ':' + (m<10?'0':'') + m : '') + ' ' + ap;
   }
+  function cl(min){ return (min % 1440 === 0 && lang === 'es') ? 'cierra a medianoche' : T.closes + ' ' + fmt(min); }
   function status(id){
     var s = H[id]; if (!s) return {cls:'', text:T.tbc};
     var n = svNow(), today = s[n.d], prev = s[(n.d+6)%7];
-    if (prev && prev[1] > 1440 && n.m < prev[1]-1440) return {cls:'is-open', text:T.open + ', ' + T.closes + ' ' + fmt(prev[1])};
-    if (today && n.m >= today[0] && n.m < today[1]) return {cls:'is-open', text:T.open + ', ' + T.closes + ' ' + fmt(today[1])};
+    if (prev && prev[1] > 1440 && n.m < prev[1]-1440) return {cls:'is-open', text:T.open + ', ' + cl(prev[1])};
+    if (today && n.m >= today[0] && n.m < today[1]) return {cls:'is-open', text:T.open + ', ' + cl(today[1])};
     if (today && n.m < today[0]) return {cls:'is-closed', text:T.closed + ', ' + T.opens + ' ' + fmt(today[0])};
     var tm = s[(n.d+1)%7]; return {cls:'is-closed', text:T.closed + (tm ? ', ' + T.opens + ' ' + fmt(tm[0]) : '')};
   }

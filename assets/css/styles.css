@@ -185,7 +185,7 @@ p{margin:0 0 1em}
 .hours td{padding:.45rem 0;border-bottom:1px solid var(--line);font-weight:600}
 .tags--big li{font-size:.85rem;padding:.3rem .8rem}
 .tags li.is-main{border-color:var(--blonde);color:var(--blonde)}
-.prose{max-width:760px}
+.prose > *{max-width:760px}
 .prose p{color:var(--ink-soft);font-size:1.05rem}
 
 .menu{columns:3 280px;column-gap:3rem;margin-top:1.5rem}
