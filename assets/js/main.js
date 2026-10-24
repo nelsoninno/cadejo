@@ -173,7 +173,7 @@
     var p = Math.min(1, Math.max(0, y / max));
     /* runner position and visibility */
     var w = runner.clientWidth - dog.clientWidth;
-    dog.style.transform = 'translateX(' + (p * w) + 'px)';
+    dog.style.transform = 'translateX(' + (p * w) + 'px) scaleX(-1)'; /* the silhouette faces left; flip it to run toward the pint */
     trail.style.transform = 'scaleX(' + p + ')';
     runner.classList.toggle('is-on', y > vh * 0.6 && p < 0.995);
     /* header hides going down, returns going up */
@@ -228,4 +228,78 @@
   [].forEach.call(document.querySelectorAll('.chip input'), function(inp){
     inp.addEventListener('change', function(){ var s = inp.nextElementSibling; s.classList.remove('pop'); void s.offsetWidth; s.classList.add('pop'); });
   });
+})();
+
+/* ===== Beer and legend layer: a pint that fills as you scroll, beer rising in the beer section,
+   and the two cadejos of the legend (one white, one black) running through the page. ===== */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var vh = function(){ return window.innerHeight; };
+
+  /* 1. The pint: fixed bottom right, fills with beer as you go down the page. */
+  var pint = document.createElement('div');
+  pint.className = 'pint'; pint.setAttribute('aria-hidden','true');
+  pint.innerHTML = '<div class="pint__glass"><div class="pint__beer"><i></i><i></i><i></i><i></i><i></i></div><div class="pint__foam"></div><div class="pint__shine"></div></div>';
+  document.body.appendChild(pint);
+  var beer = pint.querySelector('.pint__beer'), foam = pint.querySelector('.pint__foam');
+
+  /* 2. Beer rising in the beer section, with a pour stream from the top. */
+  var beersSec = document.getElementById('beers') || document.getElementById('cervezas');
+  var fill, pour;
+  if (beersSec){
+    beersSec.classList.add('has-fill');
+    fill = document.createElement('div'); fill.className = 'beer-fill'; fill.setAttribute('aria-hidden','true');
+    fill.innerHTML = '<svg class="beer-fill__wave" viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 20 Q 75 0 150 20 T 300 20 T 450 20 T 600 20 T 750 20 T 900 20 T 1050 20 T 1200 20 V40 H0Z"/></svg><div class="beer-fill__body"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>';
+    pour = document.createElement('div'); pour.className = 'beer-pour'; pour.setAttribute('aria-hidden','true');
+    beersSec.insertBefore(fill, beersSec.firstChild); beersSec.insertBefore(pour, beersSec.firstChild);
+  }
+
+  /* 3. Big gray cadejos running across sections, tied to scroll. */
+  var base = document.querySelector('link[href$="tokens.css"]').getAttribute('href').replace('assets/css/tokens.css','');
+  var runners = [];
+  var moments = document.querySelector('.moments');
+  if (moments){
+    var sec = moments.closest('section'); sec.classList.add('has-runner');
+    var big = document.createElement('img'); big.className = 'big-cadejo'; big.alt = ''; big.setAttribute('aria-hidden','true');
+    big.src = base + 'assets/images/illustrations/cadejo-dog-silhouette-01-white-cervezacadejo.com.webp';
+    sec.insertBefore(big, sec.firstChild);
+    runners.push({el:big, sec:sec, from:-45, to:115, flip:true});
+  }
+  [].forEach.call(document.querySelectorAll('.legend-pair'), function(pair){
+    var sec = pair.parentNode;
+    runners.push({el:pair.querySelector('.legend-pair__white'), sec:sec, from:-50, to:105, flip:true});
+    runners.push({el:pair.querySelector('.legend-pair__black'), sec:sec, from:110, to:-55, flip:false});
+  });
+
+  var moving;
+  function frame(){
+    var y = window.scrollY, h = vh();
+    var max = Math.max(1, document.documentElement.scrollHeight - h);
+    var p = Math.min(1, Math.max(0, y / max));
+    beer.style.height = (p * 84) + '%';
+    foam.style.bottom = (p * 84) + '%';
+    pint.classList.toggle('is-on', y > h * 0.4);
+    pint.classList.toggle('is-full', p > 0.985);
+
+    if (fill){
+      var r = beersSec.getBoundingClientRect();
+      var prog = Math.min(1, Math.max(0, (h - r.top) / (h * 0.9 + r.height * 0.35)));
+      fill.style.height = (prog * 62) + '%';
+      pour.style.height = 'calc(' + (100 - prog * 62) + '% - 6px)';
+      pour.classList.toggle('is-pouring', prog > 0.02 && prog < 0.98);
+    }
+    runners.forEach(function(o){
+      var r = o.sec.getBoundingClientRect();
+      var k = Math.min(1, Math.max(0, (h - r.top) / (h + r.height)));
+      var x = o.from + (o.to - o.from) * k;
+      o.el.style.transform = 'translateX(' + x + 'vw)' + (o.flip ? ' scaleX(-1)' : '');
+    });
+  }
+  window.addEventListener('scroll', function(){
+    document.documentElement.classList.add('is-scrolling'); clearTimeout(moving);
+    moving = setTimeout(function(){ document.documentElement.classList.remove('is-scrolling'); }, 200);
+    requestAnimationFrame(frame);
+  }, {passive:true});
+  window.addEventListener('resize', frame);
+  frame();
 })();
