@@ -106,8 +106,9 @@ p{margin:0 0 1em}
 .beer h3{font-size:1.35rem;margin:0}
 .beer p{font-size:.9rem;color:var(--ink-soft);margin:0}
 .beer__style{color:var(--blonde)!important;font-weight:600}
-.seasonal{display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;align-items:center;margin-top:1.5rem}
-.seasonal img{height:64px;width:auto;opacity:.85}
+.seasonal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem 2.5rem;align-items:center;justify-items:center;max-width:960px;margin-top:1.8rem}
+.seasonal img{height:72px;width:100%;max-width:280px;object-fit:contain;opacity:.9}
+@media (max-width:600px){.seasonal{gap:1.4rem 1rem}.seasonal img{height:44px}}
 
 /* Legend */
 .legend{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
