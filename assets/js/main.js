@@ -249,9 +249,11 @@
      can be dragged or flicked with mouse or finger (with momentum), and rush a little
      when the page scrolls. */
   var strips = [].slice.call(document.querySelectorAll('.marquee'));
-  var pageV = 0, prevY = window.scrollY;
+  var pageV = 0, pageT = 0, prevY = window.scrollY, lastScroll = 0;
   window.addEventListener('scroll', function(){
-    var y = window.scrollY; pageV = Math.min(18, Math.abs(y - prevY) * 0.22); prevY = y;
+    var y = window.scrollY; pageT = Math.min(7, Math.abs(y - prevY) * 0.08); prevY = y;
+    lastScroll = performance.now();
+    M.forEach(function(o){ o.hover = false; }); /* the page moving under a still mouse is not a hover */
   }, {passive:true});
   var M = strips.map(function(el){
     var track = el.querySelector('.marquee__track');
@@ -281,7 +283,9 @@
     /* images that load later can change widths: rebuild once they are in */
     [].forEach.call(orig, function(n){ var im = n.querySelector('img'); if (im && !im.complete) im.addEventListener('load', function(){ clearTimeout(o.rb); o.rb = setTimeout(build, 120); }); });
 
-    el.addEventListener('pointerenter', function(e){ if (e.pointerType === 'mouse') o.hover = true; });
+    el.addEventListener('pointermove', function(e){
+      if (e.pointerType === 'mouse' && (e.movementX || e.movementY) && performance.now() - lastScroll > 200) o.hover = true;
+    });
     el.addEventListener('pointerleave', function(){ o.hover = false; });
     el.addEventListener('pointerdown', function(e){
       if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -320,8 +324,8 @@
     el.addEventListener('wheel', function(e){
       var dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
       if (!dx) return;
-      e.preventDefault(); o.x -= dx; o.v = o.dir * o.base * o.hoverK;
-    }, {passive:false});
+      o.x -= dx; o.v = o.dir * o.base * o.hoverK;
+    }, {passive:true}); /* passive so page scrolling over the strip never waits on this */
     el.addEventListener('keydown', function(e){
       if (e.key === 'ArrowRight'){ o.v = -26; e.preventDefault(); }
       if (e.key === 'ArrowLeft'){ o.v = 26; e.preventDefault(); }
@@ -345,7 +349,8 @@
         if (o.W > 0){ while (o.x <= -o.W) { o.x += o.W; if (o.drag) o.drag.xs += o.W; } while (o.x > 0) { o.x -= o.W; if (o.drag) o.drag.xs -= o.W; } }
         o.track.style.transform = 'translate3d(' + o.x.toFixed(2) + 'px,0,0)';
       });
-      pageV *= Math.pow(0.9, f);
+      pageV += (pageT - pageV) * Math.min(1, 0.12 * f);
+      pageT *= Math.pow(0.88, f);
       requestAnimationFrame(loop);
     })(last);
   }
@@ -415,7 +420,8 @@
     if (fill){
       var r = beersSec.getBoundingClientRect();
       var prog = Math.min(1, Math.max(0, (h - r.top) / (h * 0.9 + r.height * 0.35)));
-      fill.style.height = (prog * 62) + '%';
+      var q = 1 - prog;
+      fill.style.transform = 'translate3d(0,calc(' + (q * 100).toFixed(2) + '% + ' + (q * 60).toFixed(1) + 'px),0)';
     }
     runners.forEach(function(o){
       var r = o.sec.getBoundingClientRect();
@@ -423,10 +429,11 @@
       tee(o.el, 'translateX(' + (o.from + (o.to - o.from) * k) + 'vw)', o.flip, o.deg);
     });
   }
+  var queued = false;
   window.addEventListener('scroll', function(){
     document.documentElement.classList.add('is-scrolling'); clearTimeout(moving);
     moving = setTimeout(function(){ document.documentElement.classList.remove('is-scrolling'); }, 200);
-    requestAnimationFrame(frame);
+    if (!queued){ queued = true; requestAnimationFrame(function(){ queued = false; frame(); }); }
   }, {passive:true});
   window.addEventListener('resize', frame);
   frame();
