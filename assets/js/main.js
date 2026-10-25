@@ -259,7 +259,7 @@
     var track = el.querySelector('.marquee__track');
     var orig = [].slice.call(track.children);
     var o = {el:el, track:track, orig:orig, dir:+(el.dataset.dir || -1), base:+(el.dataset.speed || .5),
-             hoverK:el.dataset.hover !== undefined ? +el.dataset.hover : .25, x:0, v:0, W:0, hover:false, vis:false, drag:null, moved:0};
+             hoverK:el.dataset.hover !== undefined ? +el.dataset.hover : .25, boost:el.dataset.boost !== undefined ? +el.dataset.boost : 1, x:0, v:0, W:0, hover:false, vis:false, drag:null, moved:0};
     o.v = o.dir * o.base;
     [].forEach.call(el.querySelectorAll('img'), function(im){ im.draggable = false; });
     function build(){
@@ -273,7 +273,7 @@
       });
       var firstClone = track.querySelector('[data-clone]');
       o.W = firstClone ? firstClone.offsetLeft - orig[0].offsetLeft : setW;
-      if (o.dir > 0 && o.x === 0) o.x = -o.W / 2;
+      if (o.W > 0) o.x = ((o.x % o.W) - o.W) % o.W;
     }
     o.build = build;
     build();
@@ -341,10 +341,10 @@
       M.forEach(function(o){
         if (!o.vis) return;
         if (!o.drag){
-          var target = o.dir * (o.base * (o.hover ? o.hoverK : 1) + pageV);
+          var target = o.dir * (o.base * (o.hover ? o.hoverK : 1) + pageV * o.boost);
           var k = Math.abs(o.v) > Math.abs(target) + 2 ? 0.035 : 0.08; /* a flick glides, then settles back */
           o.v += (target - o.v) * Math.min(1, k * f);
-          o.x += o.v * f;
+          o.x += Math.max(-40, Math.min(40, o.v * f));
         }
         if (o.W > 0){ while (o.x <= -o.W) { o.x += o.W; if (o.drag) o.drag.xs += o.W; } while (o.x > 0) { o.x -= o.W; if (o.drag) o.drag.xs -= o.W; } }
         o.track.style.transform = 'translate3d(' + o.x.toFixed(2) + 'px,0,0)';
