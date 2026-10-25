@@ -249,12 +249,15 @@
      can be dragged or flicked with mouse or finger (with momentum), and rush a little
      when the page scrolls. */
   var strips = [].slice.call(document.querySelectorAll('.marquee'));
-  var pageV = 0, pageT = 0, prevY = window.scrollY, lastScroll = 0;
+  var pageV = 0, pageT = 0, prevY = window.scrollY;
   window.addEventListener('scroll', function(){
     var y = window.scrollY; pageT = Math.min(7, Math.abs(y - prevY) * 0.08); prevY = y;
-    lastScroll = performance.now();
-    M.forEach(function(o){ o.hover = false; }); /* the page moving under a still mouse is not a hover */
   }, {passive:true});
+  /* hover comes from where the mouse really is, checked every frame, so scrolling can never flip it */
+  var mouse = {x:0, y:0, on:false};
+  document.addEventListener('pointermove', function(e){ if (e.pointerType === 'mouse'){ mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; } }, {passive:true});
+  document.addEventListener('mouseout', function(e){ if (!e.relatedTarget) mouse.on = false; });
+  window.addEventListener('blur', function(){ mouse.on = false; });
   var M = strips.map(function(el){
     var track = el.querySelector('.marquee__track');
     var orig = [].slice.call(track.children);
@@ -288,10 +291,6 @@
       obs.disconnect();
     }, {rootMargin:'600px 0px'}).observe(el);
 
-    el.addEventListener('pointermove', function(e){
-      if (e.pointerType === 'mouse' && (e.movementX || e.movementY) && performance.now() - lastScroll > 200) o.hover = true;
-    });
-    el.addEventListener('pointerleave', function(){ o.hover = false; });
     el.addEventListener('pointerdown', function(e){
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       o.drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, xs:o.x, lx:e.clientX, lt:performance.now(), vel:0, axis:null};
@@ -327,7 +326,8 @@
     el.addEventListener('click', function(e){ if (o.moved > 6){ e.preventDefault(); e.stopPropagation(); } }, true);
     /* trackpads and shift + wheel move it sideways; normal wheel still scrolls the page */
     el.addEventListener('wheel', function(e){
-      var dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+      /* only a clearly sideways gesture (trackpad swipe or shift + wheel) moves the strip */
+      var dx = (Math.abs(e.deltaX) > 4 && Math.abs(e.deltaX) > Math.abs(e.deltaY) * 2) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
       if (!dx) return;
       o.x -= dx; o.v = o.dir * o.base * o.hoverK;
     }, {passive:true}); /* passive so page scrolling over the strip never waits on this */
@@ -351,6 +351,8 @@
       var f = Math.min(3, (t - last) / 16.67); last = t;
       M.forEach(function(o){
         if (!o.vis) return;
+        if (mouse.on){ var r = o.el.getBoundingClientRect(); o.hover = mouse.x >= r.left && mouse.x <= r.right && mouse.y >= r.top && mouse.y <= r.bottom; }
+        else o.hover = false;
         if (!o.drag){
           var target = o.dir * (o.base * (o.hover ? o.hoverK : 1) + pageV * o.boost);
           var k = Math.abs(o.v) > Math.abs(target) + 2 ? 0.035 : 0.08; /* a flick glides, then settles back */
