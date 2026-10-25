@@ -77,15 +77,15 @@
      main audience (heart) = 3, other audiences = 1. Guatemala is left out (other country). */
   var A = {
     'playa':      {familias:3,turistas:3,parejas:1},
-    'mansion':    {turistas:3,familias:1,amigos:1,celebraciones:1,empresas:1,parejas:1,conocer:2},
-    'montana':    {familias:3,empresas:3,celebraciones:3,amigos:1,parejas:1,turistas:1,conocer:1},
+    'mansion':    {turistas:3,familias:1,amigos:1,celebraciones:1,empresas:1,parejas:1,conocer:2,mascotas:2},
+    'montana':    {familias:3,empresas:3,celebraciones:3,amigos:1,parejas:1,turistas:1,conocer:1,mascotas:8},
     'zona-rosa':  {turistas:3,amigos:3,experiencias:1,celebraciones:1,tomar:1,parejas:1},
     'santa-elena':{experiencias:3,amigos:3,tomar:1},
     'opico':      {amigos:3,tomar:3,experiencias:1},
     'soyapango':  {amigos:3,familias:3,tomar:1,experiencias:1,celebraciones:1},
     'aeropuerto': {turistas:1}
   };
-  var WHO = {familia:['familias'], pareja:['parejas'], amigos:['amigos','tomar'], equipo:['empresas'], celebracion:['celebraciones'], visita:['turistas','conocer']};
+  var WHO = {perro:['mascotas'], familia:['familias'], pareja:['parejas'], amigos:['amigos','tomar'], equipo:['empresas'], celebracion:['celebraciones'], visita:['turistas','conocer']};
   var VIBE = {
     playa:{'playa':6}, montana:{'montana':6}, historia:{'mansion':6},
     cerveza:{'zona-rosa':6,'santa-elena':1,'opico':1,'soyapango':1},
