@@ -136,6 +136,18 @@
       out.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'start'});
     });
   }
+
+  /* Menu tabs: one menu at a time (main, breakfast, lunch...). Without JS every menu shows. */
+  [].forEach.call(document.querySelectorAll('.menu-tabs'), function(bar){
+    var btns = [].slice.call(bar.querySelectorAll('button'));
+    var books = btns.map(function(b){ return document.getElementById(b.dataset.target); });
+    function pick(n){
+      btns.forEach(function(b, k){ b.setAttribute('aria-selected', k === n ? 'true' : 'false'); });
+      books.forEach(function(el, k){ if (el) el.hidden = k !== n; });
+    }
+    btns.forEach(function(b, k){ b.addEventListener('click', function(){ pick(k); }); });
+    bar.hidden = false; bar.parentNode.classList.add('has-tabs'); pick(0);
+  });
 })();
 
 /* ===== Motion layer: makes scrolling feel alive. Off when the visitor prefers reduced motion. ===== */
