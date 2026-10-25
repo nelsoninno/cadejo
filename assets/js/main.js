@@ -280,8 +280,13 @@
     el.classList.add('is-live');
     el.scrollLeft = 0;
     el.addEventListener('scroll', function(){ el.scrollLeft = 0; }); /* focus must not shift the strip */
-    /* images that load later can change widths: rebuild once they are in */
-    [].forEach.call(orig, function(n){ var im = n.querySelector('img'); if (im && !im.complete) im.addEventListener('load', function(){ clearTimeout(o.rb); o.rb = setTimeout(build, 120); }); });
+    /* sizes are fixed in the markup, so the strip is built once and never rebuilt while scrolling.
+       Load every photo in it a little before it reaches the screen, so nothing pops in. */
+    new IntersectionObserver(function(en, obs){
+      if (!en[0].isIntersecting) return;
+      [].forEach.call(el.querySelectorAll('img[loading="lazy"]'), function(im){ im.loading = 'eager'; });
+      obs.disconnect();
+    }, {rootMargin:'600px 0px'}).observe(el);
 
     el.addEventListener('pointermove', function(e){
       if (e.pointerType === 'mouse' && (e.movementX || e.movementY) && performance.now() - lastScroll > 200) o.hover = true;
@@ -335,7 +340,13 @@
   });
   if (M.length){
     var last = performance.now(), rz;
-    window.addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(function(){ M.forEach(function(o){ o.build(); }); }, 200); });
+    var lastW = window.innerWidth;
+    /* only a real width change rebuilds (phones fire resize when the address bar hides on scroll) */
+    window.addEventListener('resize', function(){
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      clearTimeout(rz); rz = setTimeout(function(){ M.forEach(function(o){ o.build(); }); }, 200);
+    });
     (function loop(t){
       var f = Math.min(3, (t - last) / 16.67); last = t;
       M.forEach(function(o){
