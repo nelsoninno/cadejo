@@ -300,7 +300,6 @@ section{position:relative}
 .beer-fill__body i:nth-child(5){left:61%;animation-delay:1.8s}.beer-fill__body i:nth-child(6){left:72%;animation-delay:3s;width:5px;height:5px}
 .beer-fill__body i:nth-child(7){left:84%;animation-delay:.9s}.beer-fill__body i:nth-child(8){left:94%;animation-delay:2.6s;width:4px;height:4px}
 @keyframes rise{0%{transform:translateY(0);opacity:0}10%{opacity:1}100%{transform:translateY(-60vh);opacity:0}}
-.is-scrolling 
 /* beer cards: bottle + logo */
 .beer{flex:0 0 280px;align-items:center;text-align:center;background:rgba(18,19,18,.94)}
 .beer__bottle{height:230px!important;width:auto!important;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(0,0,0,.55));transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
