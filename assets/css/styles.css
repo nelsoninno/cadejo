@@ -100,17 +100,8 @@ p{margin:0 0 1em}
 .branch__go a{font-size:.82rem;font-weight:600;text-decoration:none;padding:.45rem .9rem;border-radius:999px;border:1px solid var(--line)}
 .branch__go a:hover{border-color:var(--ink)}
 
-/* Dishes */
-.dishes{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:220px;gap:1rem;margin-top:2rem}
-.dishes figure{margin:0;position:relative;border-radius:var(--radius);overflow:hidden}
-.dishes figure:first-child{grid-row:span 2}
-.dishes img{width:100%;height:100%;object-fit:cover}
-.dishes figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.4rem .9rem .7rem;font-size:.85rem;background:linear-gradient(0deg,rgba(18,19,18,.85),transparent)}
-@media (max-width:760px){.dishes{grid-template-columns:1fr 1fr;grid-auto-rows:170px}.dishes figure:first-child{grid-column:span 2;grid-row:span 1}}
-
 /* Beers: horizontal scroll */
-.beers{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:1rem 0 1.5rem;margin-top:1.5rem;scrollbar-color:var(--line) transparent}
-.beer{flex:0 0 260px;scroll-snap-align:start;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;display:flex;flex-direction:column;gap:.8rem}
+.beer{flex:0 0 260px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;display:flex;flex-direction:column;gap:.8rem}
 .beer img{height:110px;width:100%;object-fit:contain}
 .beer h3{font-size:1.35rem;margin:0}
 .beer p{font-size:.9rem;color:var(--ink-soft);margin:0}
@@ -252,14 +243,10 @@ p{margin:0 0 1em}
 .branch:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.45)}
 .branch:hover img{transform:scale(1.05)}
 .branch{overflow:hidden}
-.motion .dishes img{transform:scale(1.12);transition:transform .1s linear}
 .motion .branch.rv.is-in:hover{transform:translateY(-4px)}
 .gallery img{transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
 .gallery img:hover{transform:scale(1.03);filter:brightness(1.08)}
 
-/* beers drift on their own */
-.beers.is-auto{scroll-snap-type:none;scrollbar-width:none}
-.beers.is-auto::-webkit-scrollbar{display:none}
 .beer{transition:transform .35s ease,border-color .35s}
 .beer:hover{transform:translateY(-6px);border-color:var(--blonde)}
 
@@ -305,8 +292,6 @@ section{position:relative}
 #beers.has-fill,#cervezas.has-fill{overflow:hidden}
 #beers > .wrap,#cervezas > .wrap{position:relative;z-index:2}
 .beer-fill{position:absolute;left:0;right:0;bottom:0;height:0;z-index:0;pointer-events:none;transition:height .2s linear}
-.beer-fill__body{position:absolute;inset:14px 0 0 0;background:linear-gradient(180deg,rgba(246,174,15,.92) 0%,rgba(232,146,12,.9) 40%,rgba(191,63,32,.92) 100%);overflow:hidden}
-.beer-fill__wave{position:absolute;left:0;top:-1px;width:200%;height:30px;fill:#f4ede0;animation:waves 6s linear infinite;filter:drop-shadow(0 6px 0 rgba(246,174,15,.95))}
 @keyframes waves{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .beer-fill__body i{position:absolute;bottom:-10px;width:7px;height:7px;border-radius:50%;background:rgba(255,250,230,.6);animation:rise 4s linear infinite}
 .beer-fill__body i:nth-child(1){left:6%}.beer-fill__body i:nth-child(2){left:19%;animation-delay:1.1s;width:5px;height:5px}
@@ -314,10 +299,7 @@ section{position:relative}
 .beer-fill__body i:nth-child(5){left:61%;animation-delay:1.8s}.beer-fill__body i:nth-child(6){left:72%;animation-delay:3s;width:5px;height:5px}
 .beer-fill__body i:nth-child(7){left:84%;animation-delay:.9s}.beer-fill__body i:nth-child(8){left:94%;animation-delay:2.6s;width:4px;height:4px}
 @keyframes rise{0%{transform:translateY(0);opacity:0}10%{opacity:1}100%{transform:translateY(-60vh);opacity:0}}
-.beer-pour{position:absolute;top:0;left:auto;right:9%;width:9px;margin-left:0;height:0;z-index:1;pointer-events:none;border-radius:0 0 6px 6px;background:linear-gradient(90deg,rgba(191,63,32,.85),rgba(246,174,15,.95),rgba(191,63,32,.85));opacity:0;transition:opacity .3s}
-.beer-pour.is-pouring{opacity:.9}
-.is-scrolling .beer-pour.is-pouring{width:13px;margin-right:-2px}
-
+.is-scrolling 
 /* beer cards: bottle + logo */
 .beer{flex:0 0 280px;align-items:center;text-align:center;background:rgba(18,19,18,.94)}
 .beer__bottle{height:230px!important;width:auto!important;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(0,0,0,.55));transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
@@ -339,8 +321,6 @@ section{position:relative}
 .page-hero--legend{min-height:auto;padding-bottom:3rem}
 .page-hero--legend .page-hero__content{position:relative;z-index:1}
 .legend-text p{font-size:1.15rem;max-width:62ch;color:var(--ink)}
-.is-scrolling .big-cadejo,.is-scrolling .legend-pair img{animation:gallop .36s steps(2) infinite}
-@keyframes gallop{50%{margin-top:-6px}}
 
 /* jobs + events extras */
 .jobs-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:start}
@@ -350,4 +330,61 @@ section{position:relative}
 .job__name{font-family:var(--font-display);font-size:1.4rem}
 .job__soon{font-size:.85rem;color:var(--ink-soft)}
 .ev-types{margin-top:1rem}
-@media (max-width:700px){.beer-pour{display:none}}
+
+/* ===== v4: full-bleed carousels, food gallery, foam, teeter, finder steps ===== */
+/* carousels run edge to edge; JS turns them into endless, draggable strips */
+.marquee{position:relative;margin-top:1.4rem;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:var(--line) transparent;outline:none}
+.marquee.is-live::-webkit-scrollbar{display:none}
+.marquee__track{display:flex;align-items:center;gap:clamp(.75rem,1.4vw,1.2rem);width:max-content;padding:1.3rem clamp(.75rem,1.4vw,1.2rem) 1.7rem}
+.marquee.is-live{overflow:hidden;scrollbar-width:none;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.marquee.is-live .marquee__track{will-change:transform}
+.marquee.is-dragging{cursor:grabbing}
+.marquee.is-dragging .marquee__track *{pointer-events:none}
+.marquee:focus-visible{box-shadow:inset 0 0 0 2px var(--blonde)}
+.marquee img{-webkit-user-drag:none;user-select:none}
+#beers > .marquee,#cervezas > .marquee{z-index:2}
+.marquee.beers .beer{align-self:stretch}
+
+/* food gallery */
+.food{overflow:hidden}
+.marquee--food + .marquee--food{margin-top:-.6rem}
+.marquee--tall{--dish-h:clamp(250px,29vw,390px)}
+.marquee--short{--dish-h:clamp(190px,21vw,280px)}
+.dish{position:relative;flex:0 0 auto;margin:0;height:var(--dish-h,300px);border-radius:var(--radius);overflow:hidden;background:var(--bg-soft);
+  box-shadow:0 14px 30px rgba(0,0,0,.45);transform:translateY(var(--dy,0)) rotate(var(--tilt,0deg));transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
+.dish:nth-child(4n+1){--tilt:-1.6deg;--dy:6px}
+.dish:nth-child(4n+2){--tilt:1.1deg;--dy:-8px}
+.dish:nth-child(4n+3){--tilt:-.7deg;--dy:10px}
+.dish:nth-child(4n){--tilt:1.7deg;--dy:-3px}
+.dish img{display:block;height:100%;width:auto;transition:transform .9s cubic-bezier(.2,.7,.2,1),filter .5s}
+.dish:hover{transform:translateY(-6px) rotate(0deg) scale(1.03);z-index:2;box-shadow:0 24px 44px rgba(0,0,0,.6)}
+.dish:hover img{transform:scale(1.07);filter:saturate(1.12) brightness(1.05)}
+.dish figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:.15rem;padding:2.4rem .9rem .8rem;line-height:1.15;
+  background:linear-gradient(0deg,rgba(12,13,12,.92),rgba(12,13,12,0))}
+.dish figcaption b{font-family:var(--font-display-loud);font-weight:400;font-size:clamp(1.15rem,1.5vw,1.45rem);letter-spacing:.03em;color:var(--ink)}
+.dish figcaption small{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blonde)}
+.marquee--short .dish figcaption{padding:1.8rem .75rem .65rem}
+.food__more{margin:1.4rem 0 0;color:var(--ink-soft)}
+.food__more a{color:var(--blonde);font-weight:600}
+.dish-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,300px));gap:1.2rem;margin-top:1.5rem}
+.dish-grid .dish{height:auto}
+.dish-grid .dish img{width:100%;height:auto;aspect-ratio:2/3;object-fit:cover}
+
+/* foam rides in front of the beer */
+.beer-fill__body{position:absolute;inset:24px 0 0 0;z-index:0;background:linear-gradient(180deg,rgba(246,174,15,.92) 0%,rgba(232,146,12,.9) 40%,rgba(191,63,32,.92) 100%);overflow:hidden}
+.beer-fill__foam{position:absolute;left:0;right:0;top:-16px;height:56px;z-index:2;overflow:hidden;pointer-events:none}
+.beer-fill__wave{position:absolute;left:0;top:0;width:200%;height:100%;animation:waves 6s linear infinite}
+.beer-fill__wave--back{top:-7px;fill:rgba(250,244,232,.85);animation-duration:9s;animation-direction:reverse}
+.beer-fill__wave--front{filter:drop-shadow(0 2px 3px rgba(120,60,10,.25))}
+
+/* cadejos teeter while they run (rotation added in JS) */
+.runner__dog,.big-cadejo,.legend-pair img{transform-origin:50% 72%}
+
+/* finder: one question at a time */
+.finder__q.is-waiting{display:none}
+.finder__q.is-arriving{animation:qIn .6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes qIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.finder__q.is-done legend small::after{content:" ✓";opacity:1}
+.finder fieldset + fieldset{margin-top:2rem}
+@media (max-width:600px){.marquee--short .dish figcaption small{display:none}.dish figcaption{padding:2rem .7rem .7rem}}
+@media (max-width:600px){.dish-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}}

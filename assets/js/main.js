@@ -99,6 +99,21 @@
   };
   var form = document.querySelector('#finder-form');
   if (form){
+    /* one question at a time: answering one brings in the next */
+    var qs = [].slice.call(form.querySelectorAll('.finder__q'));
+    qs.forEach(function(q, k){ if (k > 0) q.classList.add('is-waiting'); });
+    form.addEventListener('change', function(e){
+      var q = e.target.closest('.finder__q'), k = qs.indexOf(q);
+      if (q) q.classList.add('is-done');
+      var nx = qs[k + 1];
+      if (nx && nx.classList.contains('is-waiting')){
+        nx.classList.remove('is-waiting');
+        if (!reduce){ nx.classList.add('is-arriving', 'is-in'); }
+        var r = nx.getBoundingClientRect(), room = window.innerHeight - 24;
+        if (r.bottom > room) window.scrollBy({top: r.bottom - room, behavior: reduce ? 'auto' : 'smooth'});
+        var first = nx.querySelector('input'); if (first) first.focus({preventScroll:true});
+      }
+    });
     form.addEventListener('change', function(){
       var who = (form.querySelector('[name=who]:checked')||{}).value;
       var vibe = (form.querySelector('[name=vibe]:checked')||{}).value;
@@ -134,7 +149,7 @@
   requestAnimationFrame(function(){ root.classList.add('is-loaded'); });
 
   /* 2. Reveal blocks as they enter the screen, staggered inside each group. */
-  var sel = ['.section h2','.lead','.moment','.branch-grid .branch','.dishes figure','.faq details','.fact','.gallery img','.ev','.other','.menu__sec','.split > *','.legend > *','.group-title','.group-sub','.seasonal img','.b2b .wrap > *','.finder__q'];
+  var sel = ['.section h2','.lead','.moment','.branch-grid .branch','.faq details','.fact','.gallery img','.ev','.other','.menu__sec','.split > *','.legend > *','.group-title','.group-sub','.seasonal img','.b2b .wrap > *','.finder__q'];
   var items = [].slice.call(document.querySelectorAll(sel.join(',')));
   /* skip anything already inside another revealed block, so nothing animates twice */
   items = items.filter(function(el){ return !items.some(function(o){ return o !== el && o.contains(el); }); });
@@ -154,43 +169,61 @@
     [].forEach.call(results.children, function(c,k){ c.classList.remove('is-in'); c.style.setProperty('--rv-delay', k*90+'ms'); requestAnimationFrame(function(){ requestAnimationFrame(function(){ c.classList.add('is-in'); }); }); });
   }).observe(results, {childList:true});
 
-  /* 3. The cadejo that walks beside you: a small running silhouette follows the scroll. */
+  /* 3. Teeter: every running cadejo rocks side to side while the page moves,
+     like PowerPoint's Teeter. Each one keeps its own position (tx) and we add the rocking on top. */
+  var tee = (function(){
+    var list = [], amp = 0, target = 0, stop;
+    window.addEventListener('scroll', function(){
+      target = 1; clearTimeout(stop);
+      stop = setTimeout(function(){ target = 0; }, 240);
+    }, {passive:true});
+    function loop(t){
+      amp += (target - amp) * (target > amp ? 0.22 : 0.07);
+      var still = amp < 0.003;
+      list.forEach(function(o){
+        if (still && !o.dirty && o.rest) return;
+        var r = still ? 0 : o.deg * amp * Math.sin(t / 1000 * Math.PI * 2 * 2.3 + o.ph);
+        o.el.style.transform = o.tx + ' rotate(' + r.toFixed(2) + 'deg)' + (o.flip ? ' scaleX(-1)' : '');
+        o.dirty = false; o.rest = still;
+      });
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+    return function(el, tx, flip, deg){
+      var o = el._tee;
+      if (!o){ o = el._tee = {el:el, deg:deg || 7, ph:Math.random() * 6}; list.push(o); }
+      o.tx = tx; o.flip = flip; o.dirty = true;
+    };
+  })();
+  window.cadejoTeeter = tee;
+
+  /* 4. The cadejo that walks beside you: a small running cadejo follows the scroll. */
   var runner = document.createElement('div');
   runner.className = 'runner'; runner.setAttribute('aria-hidden','true');
-  runner.innerHTML = '<div class="runner__track"><div class="runner__trail"></div></div><img class="runner__dog" alt="" src="' + base + 'assets/images/illustrations/cadejo-dog-silhouette-01-white-cervezacadejo.com.webp">';
+  runner.innerHTML = '<div class="runner__track"><div class="runner__trail"></div></div><img class="runner__dog" alt="" src="' + base + 'assets/images/illustrations/cadejo-running-white-cervezacadejo.com.svg">';
   document.body.appendChild(runner);
   var dog = runner.querySelector('.runner__dog'), trail = runner.querySelector('.runner__trail');
 
-  /* 4. Scroll-linked effects in one animation frame loop. */
+  /* 5. Scroll-linked effects in one animation frame loop. */
   var header = document.querySelector('.site-header');
   var heroImgs = [].slice.call(document.querySelectorAll('.hero__reel, .page-hero__img'));
-  var para = [].slice.call(document.querySelectorAll('.dishes img'));
   var lastY = window.scrollY, ticking = false, runTimer;
   function frame(){
     ticking = false;
     var y = window.scrollY, vh = window.innerHeight;
     var max = Math.max(1, document.documentElement.scrollHeight - vh);
     var p = Math.min(1, Math.max(0, y / max));
-    /* runner position and visibility */
+    /* the cadejo faces left in the drawing, so it is flipped to run toward the pint */
     var w = runner.clientWidth - dog.clientWidth;
-    dog.style.transform = 'translateX(' + (p * w) + 'px) scaleX(-1)'; /* the silhouette faces left; flip it to run toward the pint */
+    tee(dog, 'translateX(' + (p * w) + 'px)', true, 10);
     trail.style.transform = 'scaleX(' + p + ')';
     runner.classList.toggle('is-on', y > vh * 0.6 && p < 0.995);
-    /* header hides going down, returns going up */
     if (header){
       if (y > lastY + 6 && y > 220) header.classList.add('is-hidden');
       else if (y < lastY - 6 || y < 220) header.classList.remove('is-hidden');
     }
     lastY = y;
-    /* hero drifts slower than the page */
     heroImgs.forEach(function(el){ if (y < vh * 1.2) el.style.transform = 'translateY(' + (y * 0.28) + 'px)'; });
-    /* photos move a little inside their frames */
-    para.forEach(function(img){
-      var r = img.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > vh) return;
-      var c = (r.top + r.height / 2 - vh / 2) / vh;
-      img.style.transform = 'scale(1.12) translateY(' + (c * -6) + '%)';
-    });
   }
   window.addEventListener('scroll', function(){
     runner.classList.add('is-running'); clearTimeout(runTimer);
@@ -200,31 +233,112 @@
   window.addEventListener('resize', frame);
   frame();
 
-  /* 5. Beers drift sideways on their own; any touch, hover or focus hands control back. */
-  var strip = document.querySelector('.beers');
-  if (strip){
-    var orig = [].slice.call(strip.children);
-    orig.forEach(function(n){ var c = n.cloneNode(true); c.setAttribute('aria-hidden','true'); c.querySelectorAll('a,button').forEach(function(a){ a.tabIndex = -1; }); strip.appendChild(c); });
-    strip.classList.add('is-auto');
-    var paused = false, visible = false, resume;
-    var pause = function(){ paused = true; clearTimeout(resume); };
-    var later = function(){ clearTimeout(resume); resume = setTimeout(function(){ paused = false; }, 2500); };
-    ['mouseenter','touchstart','focusin','wheel','pointerdown'].forEach(function(ev){ strip.addEventListener(ev, pause, {passive:true}); });
-    ['mouseleave','touchend','focusout'].forEach(function(ev){ strip.addEventListener(ev, later, {passive:true}); });
-    new IntersectionObserver(function(e){ visible = e[0].isIntersecting; }).observe(strip);
-    var pos = 0;
-    (function drift(){
-      if (visible && !paused){
-        var half = strip.scrollWidth / 2;
-        pos = strip.scrollLeft + 0.5;
-        if (pos >= half) pos -= half;
-        strip.scrollLeft = pos;
+  /* 6. Endless carousels (beers and food). They run edge to edge, drift on their own,
+     can be dragged or flicked with mouse or finger (with momentum), and rush a little
+     when the page scrolls. */
+  var strips = [].slice.call(document.querySelectorAll('.marquee'));
+  var pageV = 0, prevY = window.scrollY;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY; pageV = Math.min(18, Math.abs(y - prevY) * 0.22); prevY = y;
+  }, {passive:true});
+  var M = strips.map(function(el){
+    var track = el.querySelector('.marquee__track');
+    var orig = [].slice.call(track.children);
+    var o = {el:el, track:track, orig:orig, dir:+(el.dataset.dir || -1), base:+(el.dataset.speed || .5),
+             hoverK:el.dataset.hover !== undefined ? +el.dataset.hover : .25, x:0, v:0, W:0, hover:false, vis:false, drag:null, moved:0};
+    o.v = o.dir * o.base;
+    [].forEach.call(el.querySelectorAll('img'), function(im){ im.draggable = false; });
+    function build(){
+      [].slice.call(track.querySelectorAll('[data-clone]')).forEach(function(n){ track.removeChild(n); });
+      var setW = track.scrollWidth, sets = Math.max(2, Math.ceil(window.innerWidth / Math.max(1, setW)) + 2);
+      for (var k = 1; k < sets; k++) orig.forEach(function(n){
+        var c = n.cloneNode(true); c.setAttribute('data-clone', ''); c.setAttribute('aria-hidden', 'true');
+        [].forEach.call(c.querySelectorAll('a,button,[tabindex]'), function(a){ a.tabIndex = -1; });
+        [].forEach.call(c.querySelectorAll('img'), function(im){ im.draggable = false; });
+        track.appendChild(c);
+      });
+      var firstClone = track.querySelector('[data-clone]');
+      o.W = firstClone ? firstClone.offsetLeft - orig[0].offsetLeft : setW;
+      if (o.dir > 0 && o.x === 0) o.x = -o.W / 2;
+    }
+    o.build = build;
+    build();
+    el.classList.add('is-live');
+    el.scrollLeft = 0;
+    el.addEventListener('scroll', function(){ el.scrollLeft = 0; }); /* focus must not shift the strip */
+    /* images that load later can change widths: rebuild once they are in */
+    [].forEach.call(orig, function(n){ var im = n.querySelector('img'); if (im && !im.complete) im.addEventListener('load', function(){ clearTimeout(o.rb); o.rb = setTimeout(build, 120); }); });
+
+    el.addEventListener('pointerenter', function(e){ if (e.pointerType === 'mouse') o.hover = true; });
+    el.addEventListener('pointerleave', function(){ o.hover = false; });
+    el.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      o.drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, xs:o.x, lx:e.clientX, lt:performance.now(), vel:0, axis:null};
+      o.moved = 0;
+    });
+    el.addEventListener('pointermove', function(e){
+      var d = o.drag; if (!d || e.pointerId !== d.id) return;
+      var dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+      if (!d.axis){
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        d.axis = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
+        if (d.axis === 'y'){ o.drag = null; return; }
+        try { el.setPointerCapture(d.id); } catch (err) {}
+        el.classList.add('is-dragging');
       }
-      requestAnimationFrame(drift);
-    })();
+      var now = performance.now(), dt = Math.max(1, now - d.lt);
+      d.vel = d.vel * 0.5 + ((e.clientX - d.lx) / dt * 16.67) * 0.5;
+      d.lx = e.clientX; d.lt = now;
+      o.x = d.xs + dx; o.moved = Math.abs(dx);
+    });
+    function release(e){
+      var d = o.drag; if (!d || (e && e.pointerId !== d.id)) return;
+      if (d.axis === 'x'){
+        if (performance.now() - d.lt > 90) d.vel = 0; /* held still before letting go */
+        o.v = Math.max(-70, Math.min(70, d.vel * 1.6));
+      }
+      o.drag = null; el.classList.remove('is-dragging');
+    }
+    el.addEventListener('pointerup', release);
+    el.addEventListener('pointercancel', release);
+    el.addEventListener('lostpointercapture', release);
+    /* a drag is not a click */
+    el.addEventListener('click', function(e){ if (o.moved > 6){ e.preventDefault(); e.stopPropagation(); } }, true);
+    /* trackpads and shift + wheel move it sideways; normal wheel still scrolls the page */
+    el.addEventListener('wheel', function(e){
+      var dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+      if (!dx) return;
+      e.preventDefault(); o.x -= dx; o.v = o.dir * o.base * o.hoverK;
+    }, {passive:false});
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight'){ o.v = -26; e.preventDefault(); }
+      if (e.key === 'ArrowLeft'){ o.v = 26; e.preventDefault(); }
+    });
+    new IntersectionObserver(function(en){ o.vis = en[0].isIntersecting; }, {rootMargin:'100px 0px'}).observe(el);
+    return o;
+  });
+  if (M.length){
+    var last = performance.now(), rz;
+    window.addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(function(){ M.forEach(function(o){ o.build(); }); }, 200); });
+    (function loop(t){
+      var f = Math.min(3, (t - last) / 16.67); last = t;
+      M.forEach(function(o){
+        if (!o.vis) return;
+        if (!o.drag){
+          var target = o.dir * (o.base * (o.hover ? o.hoverK : 1) + pageV);
+          var k = Math.abs(o.v) > Math.abs(target) + 2 ? 0.035 : 0.08; /* a flick glides, then settles back */
+          o.v += (target - o.v) * Math.min(1, k * f);
+          o.x += o.v * f;
+        }
+        if (o.W > 0){ while (o.x <= -o.W) { o.x += o.W; if (o.drag) o.drag.xs += o.W; } while (o.x > 0) { o.x -= o.W; if (o.drag) o.drag.xs -= o.W; } }
+        o.track.style.transform = 'translate3d(' + o.x.toFixed(2) + 'px,0,0)';
+      });
+      pageV *= Math.pow(0.9, f);
+      requestAnimationFrame(loop);
+    })(last);
   }
 
-  /* 6. Finder chips give a small bounce when picked. */
+  /* 7. Finder chips give a small bounce when picked. */
   [].forEach.call(document.querySelectorAll('.chip input'), function(inp){
     inp.addEventListener('change', function(){ var s = inp.nextElementSibling; s.classList.remove('pop'); void s.offsetWidth; s.classList.add('pop'); });
   });
@@ -235,6 +349,7 @@
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var vh = function(){ return window.innerHeight; };
+  var tee = window.cadejoTeeter;
 
   /* 1. The pint: fixed bottom right, fills with beer as you go down the page. */
   var pint = document.createElement('div');
@@ -243,15 +358,20 @@
   document.body.appendChild(pint);
   var beer = pint.querySelector('.pint__beer'), foam = pint.querySelector('.pint__foam');
 
-  /* 2. Beer rising in the beer section, with a pour stream from the top. */
+  /* 2. Beer rising in the beer section, with the foam riding on top of it. */
   var beersSec = document.getElementById('beers') || document.getElementById('cervezas');
-  var fill, pour;
+  var fill;
   if (beersSec){
     beersSec.classList.add('has-fill');
+    var wave = 'M0 16 Q 75 0 150 16 T 300 16 T 450 16 T 600 16 T 750 16 T 900 16 T 1050 16 T 1200 16 V40 H0Z';
     fill = document.createElement('div'); fill.className = 'beer-fill'; fill.setAttribute('aria-hidden','true');
-    fill.innerHTML = '<svg class="beer-fill__wave" viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 20 Q 75 0 150 20 T 300 20 T 450 20 T 600 20 T 750 20 T 900 20 T 1050 20 T 1200 20 V40 H0Z"/></svg><div class="beer-fill__body"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>';
-    pour = document.createElement('div'); pour.className = 'beer-pour'; pour.setAttribute('aria-hidden','true');
-    beersSec.insertBefore(fill, beersSec.firstChild); beersSec.insertBefore(pour, beersSec.firstChild);
+    fill.innerHTML = '<div class="beer-fill__body"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>' +
+      '<div class="beer-fill__foam">' +
+      '<svg class="beer-fill__wave beer-fill__wave--back" viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="' + wave + '"/></svg>' +
+      '<svg class="beer-fill__wave beer-fill__wave--front" viewBox="0 0 1200 40" preserveAspectRatio="none"><defs><linearGradient id="cadejo-foam" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="#FFFBF2"/><stop offset=".62" stop-color="#F3E8D3"/><stop offset="1" stop-color="#EAD9B8" stop-opacity=".35"/></linearGradient></defs>' +
+      '<path fill="url(#cadejo-foam)" d="' + wave + '"/></svg></div>';
+    beersSec.insertBefore(fill, beersSec.firstChild);
   }
 
   /* 3. Big gray cadejos running across sections, tied to scroll. */
@@ -261,14 +381,14 @@
   if (moments){
     var sec = moments.closest('section'); sec.classList.add('has-runner');
     var big = document.createElement('img'); big.className = 'big-cadejo'; big.alt = ''; big.setAttribute('aria-hidden','true');
-    big.src = base + 'assets/images/illustrations/cadejo-dog-silhouette-01-white-cervezacadejo.com.webp';
+    big.src = base + 'assets/images/illustrations/cadejo-running-white-cervezacadejo.com.svg';
     sec.insertBefore(big, sec.firstChild);
-    runners.push({el:big, sec:sec, from:-45, to:115, flip:true});
+    runners.push({el:big, sec:sec, from:-45, to:115, flip:true, deg:6});
   }
   [].forEach.call(document.querySelectorAll('.legend-pair'), function(pair){
     var sec = pair.parentNode;
-    runners.push({el:pair.querySelector('.legend-pair__white'), sec:sec, from:-50, to:105, flip:true});
-    runners.push({el:pair.querySelector('.legend-pair__black'), sec:sec, from:110, to:-55, flip:false});
+    runners.push({el:pair.querySelector('.legend-pair__white'), sec:sec, from:-50, to:105, flip:true, deg:7});
+    runners.push({el:pair.querySelector('.legend-pair__black'), sec:sec, from:110, to:-55, flip:false, deg:7});
   });
 
   var moving;
@@ -280,19 +400,15 @@
     foam.style.bottom = (p * 84) + '%';
     pint.classList.toggle('is-on', y > h * 0.4);
     pint.classList.toggle('is-full', p > 0.985);
-
     if (fill){
       var r = beersSec.getBoundingClientRect();
       var prog = Math.min(1, Math.max(0, (h - r.top) / (h * 0.9 + r.height * 0.35)));
       fill.style.height = (prog * 62) + '%';
-      pour.style.height = 'calc(' + (100 - prog * 62) + '% - 6px)';
-      pour.classList.toggle('is-pouring', prog > 0.02 && prog < 0.98);
     }
     runners.forEach(function(o){
       var r = o.sec.getBoundingClientRect();
       var k = Math.min(1, Math.max(0, (h - r.top) / (h + r.height)));
-      var x = o.from + (o.to - o.from) * k;
-      o.el.style.transform = 'translateX(' + x + 'vw)' + (o.flip ? ' scaleX(-1)' : '');
+      tee(o.el, 'translateX(' + (o.from + (o.to - o.from) * k) + 'vw)', o.flip, o.deg);
     });
   }
   window.addEventListener('scroll', function(){
