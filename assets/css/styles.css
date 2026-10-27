@@ -491,3 +491,10 @@ h1,h2,h3{line-height:1.1}
 .riser--left{left:-5%;transform:translate3d(-30%,75%,0) scaleX(-1)}
 .riser--right{right:-5%}
 @media (max-width:700px){.riser{height:46vw;bottom:-2%}}
+
+/* finder answers: no outline, same Bebas font as the question titles */
+.chip span{border:0;font-family:var(--font-display);font-weight:400;font-size:1.3rem;letter-spacing:.03em;line-height:1;padding:.7rem 1rem .6rem;background:rgba(12,13,12,.55);color:var(--ink)}
+.chip span:hover{background:rgba(12,13,12,.8)}
+.chip input:checked+span{background:var(--ink);color:var(--ink-dark)}
+.chips{gap:.5rem}
+@media (max-width:600px){.chip span{font-size:1.15rem;padding:.6rem .8rem .5rem}.chips{gap:.4rem}}
