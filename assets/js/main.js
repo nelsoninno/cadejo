@@ -8,7 +8,11 @@
   function onScroll(){ header.classList.toggle('is-solid', window.scrollY > 40); }
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
-  /* Hero reel: stand-in for the 30 s video. Fast cuts first, then slower. */
+  /* Intro video: respects reduced motion (shows the still frame instead). */
+  var vid = document.querySelector('.hero__video');
+  if (vid && reduce){ vid.removeAttribute('autoplay'); vid.pause(); }
+
+  /* Hero reel (photo fallback, only if a page still uses images). */
   var frames = [].slice.call(document.querySelectorAll('.hero__reel img'));
   var place = document.querySelector('.hero__place');
   if (frames.length){
