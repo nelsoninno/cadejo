@@ -538,3 +538,7 @@ h2.slogan{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing
 .brew--seasonal .brew__logo{height:96px;width:100%;margin-bottom:-26px;position:relative;z-index:2}
 .brew--seasonal .brew__panel{padding-top:42px;padding-right:96px}
 @media (max-width:860px){.brews-seasonal{grid-template-columns:1fr;max-width:420px}}
+
+/* adaptive hero video: the sharper version fades in over the light one */
+.hero__video--next{opacity:0;transition:opacity .8s ease}
+.hero__video--next.is-on{opacity:1}

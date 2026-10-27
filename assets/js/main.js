@@ -12,6 +12,55 @@
   var vid = document.querySelector('.hero__video');
   if (vid && reduce){ vid.removeAttribute('autoplay'); vid.pause(); }
 
+  /* Adaptive quality, like streaming apps: everyone starts with the light version so the page opens fast.
+     On a fast connection and a big or sharp screen, a higher quality version loads quietly and swaps in. */
+  var assetBase = (document.querySelector('link[href$="tokens.css"]').getAttribute('href') || '').replace('assets/css/tokens.css','');
+  function speedOK(){
+    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (c){
+      if (c.saveData) return false;
+      if (c.effectiveType && c.effectiveType !== '4g') return false;
+      if (c.downlink) return c.downlink >= 5;
+    }
+    /* no network info (Safari, iPhone): measure how fast this page's own files arrived */
+    var bytes = 0, ms = 0;
+    (performance.getEntriesByType ? performance.getEntriesByType('resource') : []).forEach(function(e){
+      if (e.transferSize > 20000 && e.duration > 0){ bytes += e.transferSize; ms += e.duration; }
+    });
+    return ms > 0 && bytes / ms > 900; /* about 7 Mbps or more */
+  }
+  var px = window.innerWidth * (window.devicePixelRatio || 1);
+  function upgradeVideo(){
+    var v = document.querySelector('.hero__video');
+    if (!v || reduce || !speedOK()) return;
+    var file = px >= 1600 ? 'cadejo-intro-hd-cervezacadejo.com.mp4' : (px >= 900 ? 'cadejo-intro-cervezacadejo.com.mp4' : null);
+    if (!file || (v.currentSrc || '').indexOf(file) > -1) return;
+    var hd = document.createElement('video');
+    hd.className = 'hero__video hero__video--next'; hd.muted = true; hd.loop = true; hd.playsInline = true; hd.setAttribute('playsinline',''); hd.setAttribute('muted','');
+    hd.preload = 'auto'; hd.src = assetBase + 'assets/video/' + file;
+    if (px >= 1600) v.poster = assetBase + 'assets/video/cadejo-intro-poster-hd-cervezacadejo.com.webp';
+    hd.addEventListener('canplaythrough', function once(){
+      hd.removeEventListener('canplaythrough', once);
+      try { hd.currentTime = v.currentTime % (hd.duration || 1e9); } catch(e) {}
+      var pr = hd.play(); if (pr && pr.catch) pr.catch(function(){});
+      hd.classList.add('is-on');
+      setTimeout(function(){ if (v.parentNode) v.parentNode.removeChild(v); }, 900);
+    });
+    v.parentNode.appendChild(hd);
+  }
+  function upgradeFinder(){
+    var f = document.querySelector('.finder');
+    if (!f || !speedOK()) return;
+    var name = px >= 1500 ? 'hd-' : (px >= 700 ? '' : null);
+    if (name === null || (name === '' && window.innerWidth > 760)) return; /* desktop already has the standard one */
+    var url = assetBase + 'assets/images/branches/montana-huizucar/cadejo-montana-huizucar-terrace-breakfast-' + name + 'cervezacadejo.com.webp';
+    new IntersectionObserver(function(en, obs){
+      if (!en[0].isIntersecting) return; obs.disconnect();
+      var im = new Image(); im.onload = function(){ f.style.backgroundImage = 'url("' + url + '")'; }; im.src = url;
+    }, {rootMargin:'600px 0px'}).observe(f);
+  }
+  window.addEventListener('load', function(){ setTimeout(function(){ upgradeVideo(); upgradeFinder(); }, 1200); });
+
   /* Hero reel (photo fallback, only if a page still uses images). */
   var frames = [].slice.call(document.querySelectorAll('.hero__reel img'));
   var place = document.querySelector('.hero__place');

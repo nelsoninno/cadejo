@@ -6,15 +6,15 @@
 Cadejo brews craft beer at its own brewery in Zona Rosa, San Salvador, and serves it with full menus at its restaurants. Every location is family friendly and serves food. Slogan: "La leyenda hecha cerveza". The name comes from the Salvadoran legend of the cadejo, two guardian spirits shaped like dogs, one white and one black.
 
 ## Locations
-- [Cadejo Playa](https://cervezacadejo.com/playa-sunzal.html): El Sunzal, Surf City. Our restaurant in Surf City, on the cliffs of El Sunzal. Seafood and international dishes for the whole family, our craft beer with views of the Pacific, a seawater pool, a freshwater pool and rooms to wake up facing the beach.
-- [Cadejo Mansión](https://cervezacadejo.com/mansion-santa-tecla.html): Santa Tecla. Our destination restaurant, in the emblematic Mansión de las Colinas. A historic property rescued and restored to give it back to the community, where neoclassical architecture, nature, food and craft beer come together to be enjoyed slowly.
-- [Cadejo Montaña](https://cervezacadejo.com/montana-huizucar.html): Calle a Huizúcar, Nuevo Cuscatlán. Our only steakhouse: meats cooked over charcoal and wood, paired with our craft beers, with panoramic views of the country's most iconic volcanoes and lakes. The mountain without leaving the city, just 5 minutes away.
-- [Cadejo Zona Rosa](https://cervezacadejo.com/zona-rosa.html): The brewery, San Benito. Our brewery and headquarters, in San Benito. Good food with craft beer brewed right here, brewery tours and nightlife on certain days of the week. A great place for friends and family, and to learn everything about craft beer.
-- [Cadejo Aeropuerto](https://cervezacadejo.com/aeropuerto.html): Airport, Gates 2 and 9. Two restaurants inside El Salvador International Airport, in front of Gate 2 and Gate 9. Good food and our craft beers, with breakfast, lunch and dinner. A relaxed stop while you wait for your flight, and your last Salvadoran beer before you go.
-- [Cadejo Santa Elena](https://cervezacadejo.com/santa-elena.html): Plaza Jabes, Santa Elena. Across from PriceSmart Santa Elena, a relaxed place to watch your favorite sports with family and friends, with our craft beers and menu for lunch, after office and dinner. Central, airy and with a beautiful view of the San Salvador volcano. Bring your pack.
-- [Cadejo Soyapango](https://cervezacadejo.com/soyapango.html): Paseo Venecia, Soyapango. At Paseo Venecia, a big terrace with a varied menu that pairs perfectly with our craft beers and sodas. Breakfast, lunch and dinner for families and friends, and on certain nights karaoke and musical tributes.
-- [Cadejo Opico](https://cervezacadejo.com/opico.html): Pasares, San Juan Opico. At Pasares in San Juan Opico, something different from anything else in the area. Relax with a varied menu, our craft beers and sodas, and nights out with friends or family, seven days a week.
-- [Cadejo Guatemala](https://cervezacadejo.com/guatemala-zona-10.html): Zona Viva, Zona 10. The craft beer spot in the heart of Zona Viva, Zona 10. A green, relaxed space to get away from the routine: wait out the traffic or meet up with your friends, your partner, your dog, your mother-in-law or the office crew. Our open-air garden and terraces are waiting.
+- [Cadejo Playa](https://cervezacadejo.com/en/playa-sunzal.html): El Sunzal, Surf City. Our restaurant in Surf City, on the cliffs of El Sunzal. Seafood and international dishes for the whole family, our craft beer with views of the Pacific, a seawater pool, a freshwater pool and rooms to wake up facing the beach.
+- [Cadejo Mansión](https://cervezacadejo.com/en/mansion-santa-tecla.html): Santa Tecla. Our destination restaurant, in the emblematic Mansión de las Colinas. A historic property rescued and restored to give it back to the community, where neoclassical architecture, nature, food and craft beer come together to be enjoyed slowly.
+- [Cadejo Montaña](https://cervezacadejo.com/en/montana-huizucar.html): Calle a Huizúcar, Nuevo Cuscatlán. Our only steakhouse: meats cooked over charcoal and wood, paired with our craft beers, with panoramic views of the country's most iconic volcanoes and lakes. The mountain without leaving the city, just 5 minutes away.
+- [Cadejo Zona Rosa](https://cervezacadejo.com/en/zona-rosa.html): The brewery, San Benito. Our brewery and headquarters, in San Benito. Good food with craft beer brewed right here, brewery tours and nightlife on certain days of the week. A great place for friends and family, and to learn everything about craft beer.
+- [Cadejo Aeropuerto](https://cervezacadejo.com/en/aeropuerto.html): Airport, Gates 2 and 9. Two restaurants inside El Salvador International Airport, in front of Gate 2 and Gate 9. Good food and our craft beers, with breakfast, lunch and dinner. A relaxed stop while you wait for your flight, and your last Salvadoran beer before you go.
+- [Cadejo Santa Elena](https://cervezacadejo.com/en/santa-elena.html): Plaza Jabes, Santa Elena. Across from PriceSmart Santa Elena, a relaxed place to watch your favorite sports with family and friends, with our craft beers and menu for lunch, after office and dinner. Central, airy and with a beautiful view of the San Salvador volcano. Bring your pack.
+- [Cadejo Soyapango](https://cervezacadejo.com/en/soyapango.html): Paseo Venecia, Soyapango. At Paseo Venecia, a big terrace with a varied menu that pairs perfectly with our craft beers and sodas. Breakfast, lunch and dinner for families and friends, and on certain nights karaoke and musical tributes.
+- [Cadejo Opico](https://cervezacadejo.com/en/opico.html): Pasares, San Juan Opico. At Pasares in San Juan Opico, something different from anything else in the area. Relax with a varied menu, our craft beers and sodas, and nights out with friends or family, seven days a week.
+- [Cadejo Guatemala](https://cervezacadejo.com/en/guatemala-zona-10.html): Zona Viva, Zona 10. The craft beer spot in the heart of Zona Viva, Zona 10. A green, relaxed space to get away from the routine: wait out the traffic or meet up with your friends, your partner, your dog, your mother-in-law or the office crew. Our open-air garden and terraces are waiting.
 
 ## Best for
 - Visitors to El Salvador: Cadejo Mansión (historic mansion, Santa Tecla), Cadejo Playa (El Sunzal, Surf City), Cadejo Zona Rosa (brewery tour Thursdays 7 p.m.), airport (Gates 2 and 9)
@@ -29,11 +29,11 @@ Always on tap (alcohol by volume, IBU): La Nacional, craft lager (4.4%, 12 IBU);
 Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza, pumpkin ale (5.0%, 19 IBU); Lupe Reyes, holiday ale (5.7%, 32 IBU). Ask your server what is available.
 
 ## Links
-- [Website (EN)](https://cervezacadejo.com/)
-- [Website (ES)](https://cervezacadejo.com/es/)
-- [The legend and our story](https://cervezacadejo.com/legend.html)
-- [Private events](https://cervezacadejo.com/events.html)
-- [Work at Cadejo](https://cervezacadejo.com/trabaja.html)
+- [Website (ES, main)](https://cervezacadejo.com/)
+- [Website (EN)](https://cervezacadejo.com/en/)
+- [The legend and our story](https://cervezacadejo.com/en/legend.html)
+- [Private events](https://cervezacadejo.com/en/events.html)
+- [Work at Cadejo](https://cervezacadejo.com/en/trabaja.html)
 - [Instagram](https://www.instagram.com/cervezacadejo/)
 - [Facebook](https://www.facebook.com/CervezaCadejo)
 - [TikTok](https://www.tiktok.com/@cervezacadejo)
@@ -47,7 +47,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Highlights: Saltwater and freshwater pools, Rooms from $125 a night, Weekend breakfast
 - Our restaurant in Surf City, on the cliffs of El Sunzal. Seafood and international dishes for the whole family, our craft beer with views of the Pacific, a seawater pool, a freshwater pool and rooms to wake up facing the beach.
 - Pools and rooms To use the seawater and freshwater pools there is a $25 minimum per person, and all of it goes toward your food and drinks. Coming just to eat? No minimum. Stay the night: rooms start at $125 and you wake up facing the beach. On weekends we open at 9 a.m. for breakfast.
-- Page: https://cervezacadejo.com/playa-sunzal.html
+- Page (EN): https://cervezacadejo.com/en/playa-sunzal.html · Página (ES): https://cervezacadejo.com/playa-sunzal.html
 
 #### Menu at Cadejo Playa (prices from the printed menu, October 2026)
 ##### Main menu
@@ -83,7 +83,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Highlights: Historic landmark, Weekend breakfast, Vegetarian menu
 - Our destination restaurant, in the emblematic Mansión de las Colinas. A historic property rescued and restored to give it back to the community, where neoclassical architecture, nature, food and craft beer come together to be enjoyed slowly.
 - A must-see in El Salvador If you are visiting the country, put it on your list. It works for every occasion: a long lunch, a special dinner for two, a family breakfast on the weekend from 7 a.m., a birthday or a company event.
-- Page: https://cervezacadejo.com/mansion-santa-tecla.html
+- Page (EN): https://cervezacadejo.com/en/mansion-santa-tecla.html · Página (ES): https://cervezacadejo.com/mansion-santa-tecla.html
 
 #### Menu at Cadejo Mansión (prices from the printed menu, October 2026)
 ##### Main menu
@@ -122,7 +122,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Highlights: Steakhouse: charcoal and wood-fired meats, Views of volcanoes and lakes, Weekend breakfast, Pet friendly, Comedy nights
 - Our only steakhouse: meats cooked over charcoal and wood, paired with our craft beers, with panoramic views of the country's most iconic volcanoes and lakes. The mountain without leaving the city, just 5 minutes away.
 - Your escape from the city Surrounded by nature and 3 minutes from PriceSmart Santa Elena. Made for family weekends, with breakfast from 7 a.m. on Saturday and Sunday, for celebrations and for company events. Some nights we host comedy in our VIP room.
-- Page: https://cervezacadejo.com/montana-huizucar.html
+- Page (EN): https://cervezacadejo.com/en/montana-huizucar.html · Página (ES): https://cervezacadejo.com/montana-huizucar.html
 
 #### Menu at Cadejo Montaña (prices from the printed menu, October 2026)
 ##### Main menu
@@ -162,7 +162,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Highlights: Brewery tour, Thursdays 7 p.m., Live music, Comedy nights, Trivia nights, TV series watch parties, Video game nights, Soccer on TV
 - Our brewery and headquarters, in San Benito. Good food with craft beer brewed right here, brewery tours and nightlife on certain days of the week. A great place for friends and family, and to learn everything about craft beer.
 - Brewery tour Every Thursday at 7 p.m. Come see how Cadejo is brewed, from the grain to the glass.
-- Page: https://cervezacadejo.com/zona-rosa.html
+- Page (EN): https://cervezacadejo.com/en/zona-rosa.html · Página (ES): https://cervezacadejo.com/zona-rosa.html
 
 #### Menu at Cadejo Zona Rosa (prices from the printed menu, October 2026)
 ##### Main menu
@@ -195,7 +195,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Best for: Visitors to El Salvador
 - Highlights: Breakfast, lunch and dinner
 - Two restaurants inside El Salvador International Airport, in front of Gate 2 and Gate 9. Good food and our craft beers, with breakfast, lunch and dinner. A relaxed stop while you wait for your flight, and your last Salvadoran beer before you go.
-- Page: https://cervezacadejo.com/aeropuerto.html
+- Page (EN): https://cervezacadejo.com/en/aeropuerto.html · Página (ES): https://cervezacadejo.com/aeropuerto.html
 
 #### Menu at Cadejo Aeropuerto (prices from the printed menu, October 2026)
 ##### Main menu
@@ -233,7 +233,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Best for: Experience seekers, Groups of friends, A night of beers
 - Highlights: Lunch, after office and dinner, Sports bar, Soccer on TV, Chess nights, Board game nights, Trivia nights, Video game nights, TV series watch parties, Comedy nights, Live music
 - Across from PriceSmart Santa Elena, a relaxed place to watch your favorite sports with family and friends, with our craft beers and menu for lunch, after office and dinner. Central, airy and with a beautiful view of the San Salvador volcano. Bring your pack.
-- Page: https://cervezacadejo.com/santa-elena.html
+- Page (EN): https://cervezacadejo.com/en/santa-elena.html · Página (ES): https://cervezacadejo.com/santa-elena.html
 
 #### Menu at Cadejo Santa Elena (prices from the printed menu, October 2026)
 ##### Main menu
@@ -266,7 +266,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Best for: Groups of friends, Families, A night of beers, Experience seekers, Celebrations
 - Highlights: Big terrace, Weekend breakfast, Karaoke nights, Tribute nights, Live music, Soccer on TV, TV series watch parties, Craft sodas
 - At Paseo Venecia, a big terrace with a varied menu that pairs perfectly with our craft beers and sodas. Breakfast, lunch and dinner for families and friends, and on certain nights karaoke and musical tributes.
-- Page: https://cervezacadejo.com/soyapango.html
+- Page (EN): https://cervezacadejo.com/en/soyapango.html · Página (ES): https://cervezacadejo.com/soyapango.html
 
 #### Menu at Cadejo Soyapango (prices from the printed menu, October 2026)
 ##### Main menu
@@ -303,7 +303,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Best for: Groups of friends, A night of beers, Experience seekers
 - Highlights: Karaoke nights, Live music, Soccer on TV, TV series watch parties, Craft sodas
 - At Pasares in San Juan Opico, something different from anything else in the area. Relax with a varied menu, our craft beers and sodas, and nights out with friends or family, seven days a week.
-- Page: https://cervezacadejo.com/opico.html
+- Page (EN): https://cervezacadejo.com/en/opico.html · Página (ES): https://cervezacadejo.com/opico.html
 
 #### Menu at Cadejo Opico (prices from the printed menu, October 2026)
 ##### Main menu
@@ -337,7 +337,7 @@ Seasonal and limited: La Cincueyuca, Belgian tripel (10.1%, 23 IBU); La Calabaza
 - Best for: A night of beers, Groups of friends, Experience seekers, Celebrations, Visitors to El Salvador
 - Highlights: Garden and terraces, Pet friendly, Comedy nights, Live music
 - The craft beer spot in the heart of Zona Viva, Zona 10. A green, relaxed space to get away from the routine: wait out the traffic or meet up with your friends, your partner, your dog, your mother-in-law or the office crew. Our open-air garden and terraces are waiting.
-- Page: https://cervezacadejo.com/guatemala-zona-10.html
+- Page (EN): https://cervezacadejo.com/en/guatemala-zona-10.html · Página (ES): https://cervezacadejo.com/guatemala-zona-10.html
 
 #### Menu at Cadejo Guatemala (prices from the printed menu, October 2026)
 ##### Main menu
