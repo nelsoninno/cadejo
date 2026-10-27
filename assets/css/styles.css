@@ -564,3 +564,20 @@ h2.slogan{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing
   .legend-band > .legend-arch img{width:min(100%,520px);margin:0 auto}
   .legend-split__text{max-width:none}
 }
+
+/* legend v3: the two pillars of the legend frame the text from the sides; cut at the bottom, rising as you scroll */
+.legend-band > .legend-arch{display:none}
+.legend-band{min-height:min(90vh,860px)}
+.legend-pillars{position:absolute;inset:0;pointer-events:none;z-index:1}
+.legend-pillar{position:absolute;top:clamp(2.5rem,6vw,5.5rem);bottom:0;width:min(28vw,420px);overflow:hidden}
+.legend-pillar--left{left:max(.5rem,3vw)}
+.legend-pillar--right{right:max(.5rem,3vw)}
+.legend-pillar img{display:block;width:100%;height:auto;will-change:transform}
+.legend-band .wrap.legend-split{position:relative;z-index:2}
+.legend-split__text{max-width:min(480px,36vw);margin:0 auto}
+@media (max-width:860px){
+  .legend-band{display:block;min-height:0;padding-top:0}
+  .legend-pillars{position:relative;inset:auto;height:calc(2.5rem + 66vw);display:flex;justify-content:space-between;padding:2.5rem 4vw 0}
+  .legend-pillar{position:relative;top:auto;bottom:auto;left:auto;right:auto;width:43vw;height:100%}
+  .legend-split__text{max-width:none}
+}

@@ -513,7 +513,7 @@
     runners.push({el:pair.querySelector('.legend-pair__black'), sec:sec, from:110, to:-55, flip:false, deg:7});
   });
 
-  var archFig = document.querySelector('.legend-band > .legend-arch'), archImg = archFig && archFig.querySelector('img');
+  var pillars = [].slice.call(document.querySelectorAll('.legend-pillar'));
   var moving;
   function frame(){
     var y = window.scrollY, h = vh();
@@ -543,12 +543,13 @@
       o.el.style.transform = 'translate3d(' + x.toFixed(1) + '%,' + ((1 - e) * 75).toFixed(1) + '%,0)' + (o.side === 'left' ? ' scaleX(-1)' : '');
       o.el.style.opacity = e.toFixed(2);
     });
-    if (archImg){
-      var ra = archFig.getBoundingClientRect(), hidden = Math.max(0, archImg.offsetHeight - ra.height);
-      /* top of the arch shows first; the rest rises into view while the section crosses the screen */
-      var ka = Math.min(1, Math.max(0, (h * 0.8 - ra.top) / (ra.height * 0.95)));
-      archImg.style.transform = 'translate3d(0,' + (-hidden * ka).toFixed(1) + 'px,0)';
-    }
+    /* legend pillars: tops show first, then they rise; the cut bottom of the drawing never comes into view */
+    pillars.forEach(function(box){
+      var img = box.firstChild, rb = box.getBoundingClientRect();
+      var maxRise = Math.max(0, img.offsetHeight * 0.84 - rb.height);
+      var kp = Math.min(1, Math.max(0, (h * 0.8 - rb.top) / (rb.height * 0.95)));
+      img.style.transform = 'translate3d(0,' + (-maxRise * kp).toFixed(1) + 'px,0)';
+    });
     runners.forEach(function(o){
       var r = o.sec.getBoundingClientRect();
       var k = Math.min(1, Math.max(0, (h - r.top) / (h + r.height)));
