@@ -408,6 +408,7 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var vh = function(){ return window.innerHeight; };
   var tee = window.cadejoTeeter;
+  function base0(){ return document.querySelector('link[href$="tokens.css"]').getAttribute('href').replace('assets/css/tokens.css',''); }
 
   /* 1. The pint: fixed bottom right, fills with beer as you go down the page. */
   var pint = document.createElement('div');
@@ -421,14 +422,17 @@
   var fill;
   if (beersSec){
     beersSec.classList.add('has-fill');
-    var wave = 'M0 16 Q 75 0 150 16 T 300 16 T 450 16 T 600 16 T 750 16 T 900 16 T 1050 16 T 1200 16 V40 H0Z';
+    /* real beer video rising behind the beers; the foam on top gets a wavy, moving edge (CSS mask) */
     fill = document.createElement('div'); fill.className = 'beer-fill'; fill.setAttribute('aria-hidden','true');
-    fill.innerHTML = '<div class="beer-fill__body"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>' +
-      '<div class="beer-fill__foam">' +
-      '<svg class="beer-fill__wave beer-fill__wave--back" viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="' + wave + '"/></svg>' +
-      '<svg class="beer-fill__wave beer-fill__wave--front" viewBox="0 0 1200 40" preserveAspectRatio="none"><defs><linearGradient id="cadejo-foam" x1="0" y1="0" x2="0" y2="1">' +
-      '<stop offset="0" stop-color="#FFFBF2"/><stop offset=".62" stop-color="#F3E8D3"/><stop offset="1" stop-color="#EAD9B8" stop-opacity=".35"/></linearGradient></defs>' +
-      '<path fill="url(#cadejo-foam)" d="' + wave + '"/></svg></div>';
+    var vbase = base0() + 'assets/video/';
+    fill.innerHTML = '<video class="beer-fill__video" muted loop playsinline preload="none" poster="' + vbase + 'beer-background-poster-cervezacadejo.com.webp">' +
+      '<source src="' + vbase + 'beer-background-sm-cervezacadejo.com.mp4" type="video/mp4" media="(max-width: 760px)">' +
+      '<source src="' + vbase + 'beer-background-cervezacadejo.com.mp4" type="video/mp4"></video>';
+    var bv = fill.querySelector('video');
+    new IntersectionObserver(function(en){
+      if (en[0].isIntersecting){ bv.preload = 'auto'; var pr = bv.play(); if (pr && pr.catch) pr.catch(function(){}); }
+      else bv.pause();
+    }, {rootMargin:'200px 0px'}).observe(beersSec);
     beersSec.insertBefore(fill, beersSec.firstChild);
   }
 
