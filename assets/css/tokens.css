@@ -18,8 +18,10 @@
 
   /* Accent, from the ingredient icons */
   --accent:      #EB7439;
-  --cta:         var(--blonde);
-  --cta-ink:     #121312;   /* text on CTA buttons */
+  --cta:         #5B5652;   /* buttons: warm gray (Cadejo asked to drop yellow from the UI, Oct 27) */
+  --cta-ink:     #F5F2EC;   /* text on CTA buttons */
+  --highlight:   #D9D2C8;   /* small accents on dark (was yellow) */
+  --ink-dark:    #121312;   /* text on light backgrounds */
 
   /* Footer (the EKY credit reads these) */
   --footer-bg:   #0C0D0C;
