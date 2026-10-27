@@ -462,9 +462,16 @@
   /* 1. The pint: fixed bottom right, fills with beer as you go down the page. */
   var pint = document.createElement('div');
   pint.className = 'pint'; pint.setAttribute('aria-hidden','true');
-  pint.innerHTML = '<div class="pint__glass"><div class="pint__beer"><i></i><i></i><i></i><i></i><i></i></div><div class="pint__foam"></div><div class="pint__shine"></div></div>';
+  var ill = base0() + 'assets/images/illustrations/pint-16oz-';
+  pint.innerHTML = '<img class="pint__empty" alt="" src="' + ill + 'empty-cervezacadejo.com.webp">' +
+    '<div class="pint__liquid"><img alt="" src="' + ill + 'full-cervezacadejo.com.webp"></div>' +
+    '<div class="pint__foam" style="background-image:url(' + ill + 'foam-cervezacadejo.com.webp)"></div>' +
+    '<img class="pint__logo" alt="" src="' + ill + 'logo-cervezacadejo.com.webp">';
+  /* glass outline (left and right edge, % of width, every 4 of 260 rows) so the foam follows the glass shape */
+  var EDGE = [[48.4, 67.0], [9.9, 89.0], [1.1, 98.9], [0.0, 100.0], [0.0, 100.0], [0.0, 100.0], [0.0, 100.0], [0.0, 100.0], [0.0, 100.0], [0.0, 100.0], [1.1, 100.0], [1.1, 100.0], [1.1, 98.9], [1.1, 98.9], [2.2, 98.9], [2.2, 98.9], [2.2, 97.8], [3.3, 97.8], [3.3, 97.8], [4.4, 96.7], [4.4, 96.7], [5.5, 95.6], [5.5, 95.6], [6.6, 94.5], [7.7, 93.4], [7.7, 93.4], [8.8, 92.3], [9.9, 91.2], [11.0, 91.2], [12.1, 90.1], [12.1, 89.0], [13.2, 87.9], [14.3, 87.9], [15.4, 86.8], [16.5, 85.7], [16.5, 85.7], [17.6, 84.6], [18.7, 83.5], [18.7, 83.5], [19.8, 82.4], [20.9, 82.4], [20.9, 81.3], [20.9, 81.3], [22.0, 81.3], [22.0, 81.3], [22.0, 81.3], [22.0, 81.3], [22.0, 81.3], [22.0, 81.3], [22.0, 82.4], [20.9, 82.4], [20.9, 83.5], [19.8, 84.6], [18.7, 85.7], [17.6, 86.8], [16.5, 87.9], [15.4, 90.1], [13.2, 91.2], [11.0, 93.4], [8.8, 94.5], [6.6, 96.7], [6.6, 96.7], [8.8, 94.5], [13.2, 91.2], [23.1, 82.4]];
+  function edgeAt(f){ var k = Math.max(0, Math.min(EDGE.length - 1, Math.round(f * (EDGE.length - 1)))); return EDGE[k]; }
   document.body.appendChild(pint);
-  var beer = pint.querySelector('.pint__beer'), foam = pint.querySelector('.pint__foam');
+  var beer = pint.querySelector('.pint__liquid'), foam = pint.querySelector('.pint__foam');
 
   /* 2. Beer rising in the beer section, with the foam riding on top of it. */
   var beersSec = document.getElementById('beers') || document.getElementById('cervezas');
@@ -506,13 +513,20 @@
     runners.push({el:pair.querySelector('.legend-pair__black'), sec:sec, from:110, to:-55, flip:false, deg:7});
   });
 
+  var archFig = document.querySelector('.legend-band > .legend-arch'), archImg = archFig && archFig.querySelector('img');
   var moving;
   function frame(){
     var y = window.scrollY, h = vh();
     var max = Math.max(1, document.documentElement.scrollHeight - h);
     var p = Math.min(1, Math.max(0, y / max));
-    beer.style.height = (p * 84) + '%';
-    foam.style.bottom = (p * 84) + '%';
+    /* the real 16 oz Cadejo glass fills from the bottom; a foam band rides on top until the glass is full */
+    beer.style.height = (p * 100).toFixed(2) + '%';
+    var ph = pint.clientHeight || 1, band = ph * 0.1;
+    var bottom = (1 - p) * ph + ph * 0.02, top = Math.max(ph * 0.03, bottom - band);
+    var et = edgeAt(top / ph), eb = edgeAt(Math.min(1, bottom / ph));
+    foam.style.top = top.toFixed(1) + 'px'; foam.style.height = (bottom - top).toFixed(1) + 'px';
+    foam.style.clipPath = 'polygon(' + et[0] + '% 0,' + et[1] + '% 0,' + eb[1] + '% 100%,' + eb[0] + '% 100%)';
+    foam.style.opacity = (p > 0.03 && p < 0.87) ? '1' : '0';
     pint.classList.toggle('is-on', y > h * 0.4);
     pint.classList.toggle('is-full', p > 0.985);
     if (fill){
@@ -529,6 +543,12 @@
       o.el.style.transform = 'translate3d(' + x.toFixed(1) + '%,' + ((1 - e) * 75).toFixed(1) + '%,0)' + (o.side === 'left' ? ' scaleX(-1)' : '');
       o.el.style.opacity = e.toFixed(2);
     });
+    if (archImg){
+      var ra = archFig.getBoundingClientRect(), hidden = Math.max(0, archImg.offsetHeight - ra.height);
+      /* top of the arch shows first; the rest rises into view while the section crosses the screen */
+      var ka = Math.min(1, Math.max(0, (h * 0.8 - ra.top) / (ra.height * 0.95)));
+      archImg.style.transform = 'translate3d(0,' + (-hidden * ka).toFixed(1) + 'px,0)';
+    }
     runners.forEach(function(o){
       var r = o.sec.getBoundingClientRect();
       var k = Math.min(1, Math.max(0, (h - r.top) / (h + r.height)));

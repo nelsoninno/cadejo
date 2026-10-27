@@ -275,17 +275,6 @@ section{position:relative}
 /* the pint */
 .pint{position:fixed;right:clamp(1rem,4vw,2.5rem);bottom:12px;z-index:41;width:44px;height:92px;pointer-events:none;opacity:0;transform:translateY(16px) rotate(-4deg);transition:opacity .4s,transform .5s cubic-bezier(.3,1.4,.5,1)}
 .pint.is-on{opacity:1;transform:none}
-.pint__glass{position:absolute;inset:0;border:2px solid rgba(245,242,236,.7);border-top-color:rgba(245,242,236,.35);border-radius:3px 3px 9px 9px;clip-path:polygon(-5% 0,105% 0,92% 100%,8% 100%);overflow:hidden;background:rgba(218,239,247,.05)}
-.pint__beer{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(180deg,var(--blonde) 0%,#E8920C 55%,var(--amber) 100%);transition:height .25s ease-out;overflow:hidden}
-.pint__beer i{position:absolute;bottom:-6px;width:4px;height:4px;border-radius:50%;background:rgba(255,248,220,.75);animation:bubble 2.4s linear infinite}
-.pint__beer i:nth-child(1){left:18%;animation-delay:0s}.pint__beer i:nth-child(2){left:42%;animation-delay:.6s;width:3px;height:3px}
-.pint__beer i:nth-child(3){left:66%;animation-delay:1.2s}.pint__beer i:nth-child(4){left:30%;animation-delay:1.7s;width:3px;height:3px}.pint__beer i:nth-child(5){left:78%;animation-delay:.3s;width:2px;height:2px}
-@keyframes bubble{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(-95px);opacity:0}}
-.pint__foam{position:absolute;left:-2px;right:-2px;bottom:0;height:12px;margin-bottom:-4px;background:radial-gradient(circle at 15% 60%,#fff 0 5px,transparent 6px),radial-gradient(circle at 40% 40%,#fff 0 6px,transparent 7px),radial-gradient(circle at 68% 55%,#fff 0 6px,transparent 7px),radial-gradient(circle at 90% 50%,#fff 0 5px,transparent 6px),linear-gradient(#f7f3ea,#efe6d2);border-radius:6px;transition:bottom .25s ease-out;animation:wobble 1.8s ease-in-out infinite}
-@keyframes wobble{0%,100%{transform:scaleX(1) translateY(0)}50%{transform:scaleX(1.04) translateY(-1px)}}
-.pint__shine{position:absolute;top:6%;left:16%;width:4px;height:70%;border-radius:4px;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0))}
-.pint.is-full .pint__foam{height:18px;margin-bottom:-2px;animation:overflow 1.2s ease-in-out infinite}
-@keyframes overflow{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.08,1.15)}}
 @media (max-width:600px){.pint{width:34px;height:70px;bottom:8px}.runner{right:calc(1rem + 48px)}}
 
 /* beer rising in the beer section */
@@ -552,3 +541,26 @@ h2.slogan{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing
 @media (max-width:860px){.legend-band .wrap.legend-split{grid-template-columns:1fr;text-align:left}.legend-arch{width:min(80vw,380px);order:-1}}
 /* buttons in the legend and events sections use the same Bebas font as the finder answers */
 .btn--display{font-family:var(--font-display);font-weight:400;font-size:1.35rem;letter-spacing:.04em;line-height:1;padding:.85rem 1.4rem .75rem}
+
+/* the pint: Cadejo's real 16 oz glass, filling as you scroll */
+.pint{width:46px;height:131px;bottom:10px}
+.pint__empty,.pint__logo{position:absolute;inset:0;width:100%;height:100%}
+.pint__liquid{position:absolute;left:0;right:0;bottom:0;height:0;overflow:hidden;transition:height .25s ease-out}
+.pint__liquid img{position:absolute;left:0;bottom:0;width:46px;height:131px;max-width:none}
+.pint__foam{position:absolute;left:0;right:0;top:0;height:0;background-size:100% 100%;transition:opacity .3s,top .25s ease-out,height .25s ease-out}
+.pint{filter:drop-shadow(0 6px 10px rgba(0,0,0,.55))}
+@media (max-width:600px){.pint{width:36px;height:103px;bottom:8px}.pint__liquid img{width:36px;height:103px}}
+
+/* legend arch v2: big, cut by the section, rising as you scroll to reveal the rest */
+.legend-band{position:relative;overflow:hidden;min-height:min(86vh,860px);display:flex;align-items:center}
+.legend-band .wrap.legend-split{display:block;width:100%}
+.legend-split__text{max-width:min(46%,560px);position:relative;z-index:2}
+.legend-band > .legend-arch{position:absolute;top:0;bottom:0;right:max(1rem,calc((100vw - var(--max)) / 2));width:min(48vw,720px);z-index:1;margin:0;overflow:hidden;justify-self:auto}
+.legend-band > .legend-arch img{width:100%;height:auto;will-change:transform;filter:none;margin-top:clamp(2rem,5vw,4rem)}
+.legend-band > .legend-arch::before{top:22%;bottom:auto;height:60%}
+@media (max-width:860px){
+  .legend-band{display:block;min-height:0;padding-top:0}
+  .legend-band > .legend-arch{position:relative;right:auto;width:100%;height:min(105vw,620px);top:auto;bottom:auto}
+  .legend-band > .legend-arch img{width:min(100%,520px);margin:0 auto}
+  .legend-split__text{max-width:none}
+}
