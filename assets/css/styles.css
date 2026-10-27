@@ -461,3 +461,9 @@ h1,h2,h3{line-height:1.1}
 .runner.is-running .runner__dog{animation:dogrun .36s steps(4) infinite;animation-play-state:running}
 @keyframes dogrun{from{background-position:0 0}to{background-position:133.333% 0}}
 @media (max-width:600px){.runner__dog{width:41px;height:24px}}
+
+/* buttons: square with lightly rounded corners (Oct 27) */
+.btn,.chip span,.branch__go a,.menu-tabs button{border-radius:6px}
+
+/* location pages: main title in Bodoni Moda Regular */
+.page-hero--branch h1,.page-hero--branch.page-hero--bar h1{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing:0;line-height:1.08;filter:none;font-size:clamp(2.8rem,6vw,5.4rem)}
