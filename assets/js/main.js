@@ -411,12 +411,16 @@
   var base = document.querySelector('link[href$="tokens.css"]').getAttribute('href').replace('assets/css/tokens.css','');
   var runners = [];
   var moments = document.querySelector('.moments');
+  var risers = [];
   if (moments){
-    var sec = moments.closest('section'); sec.classList.add('has-runner');
-    var big = document.createElement('img'); big.className = 'big-cadejo'; big.alt = ''; big.setAttribute('aria-hidden','true');
-    big.src = base + 'assets/images/illustrations/cadejo-running-white-cervezacadejo.com.svg';
-    sec.insertBefore(big, sec.firstChild);
-    runners.push({el:big, sec:sec, from:-45, to:115, flip:true, deg:6});
+    /* two cadejos rise from the bottom corners as the section comes in, looking toward the middle */
+    var sec = moments.closest('section'); sec.classList.add('has-risers');
+    ['left','right'].forEach(function(side){
+      var im = document.createElement('img'); im.className = 'riser riser--' + side; im.alt = ''; im.setAttribute('aria-hidden','true');
+      im.src = base + 'assets/images/illustrations/cadejo-howling-cervezacadejo.com.svg';
+      sec.insertBefore(im, sec.firstChild);
+      risers.push({el:im, sec:sec, side:side});
+    });
   }
   [].forEach.call(document.querySelectorAll('.legend-pair'), function(pair){
     var sec = pair.parentNode;
@@ -439,6 +443,14 @@
       var q = 1 - prog;
       fill.style.transform = 'translate3d(0,calc(' + (q * 100).toFixed(2) + '% + ' + (q * 60).toFixed(1) + 'px),0)';
     }
+    risers.forEach(function(o){
+      var r = o.sec.getBoundingClientRect();
+      var k = Math.min(1, Math.max(0, (h - r.top) / h));
+      var e = k * k * (3 - 2 * k);
+      var x = (1 - e) * 30 * (o.side === 'left' ? -1 : 1);
+      o.el.style.transform = 'translate3d(' + x.toFixed(1) + '%,' + ((1 - e) * 75).toFixed(1) + '%,0)' + (o.side === 'left' ? ' scaleX(-1)' : '');
+      o.el.style.opacity = (e * 0.3).toFixed(2);
+    });
     runners.forEach(function(o){
       var r = o.sec.getBoundingClientRect();
       var k = Math.min(1, Math.max(0, (h - r.top) / (h + r.height)));

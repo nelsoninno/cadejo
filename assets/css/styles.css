@@ -483,3 +483,11 @@ h1,h2,h3{line-height:1.1}
 .hero__logo{width:clamp(145px,23vw,357px);margin-top:-2.2rem}
 @media (max-width:700px){.hero__brand{flex-direction:column;align-items:flex-start;gap:1.2rem}.hero__logo{width:min(48vw,195px);margin-top:0}}
 .hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* "One name, a different plan" section: two howling cadejos rise from the bottom corners */
+.has-risers{overflow:hidden;position:relative}
+.has-risers > .wrap{position:relative;z-index:1}
+.riser{position:absolute;bottom:-4%;height:min(40vw,400px);width:auto;pointer-events:none;z-index:0;opacity:0;will-change:transform,opacity;transform:translate3d(0,75%,0)}
+.riser--left{left:-5%;transform:translate3d(-30%,75%,0) scaleX(-1)}
+.riser--right{right:-5%}
+@media (max-width:700px){.riser{height:46vw;bottom:-2%}}
