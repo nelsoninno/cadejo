@@ -63,7 +63,7 @@ p{margin:0 0 1em}
 .moment span{color:var(--ink-soft);font-size:.95rem}
 
 /* Experience finder: the one bold element */
-.finder{background:var(--bg) url(../images/branches/playa-sunzal/cadejo-playa-sunzal-pool-friends-cervezacadejo.com.webp) 70% 40%/cover no-repeat;color:var(--ink)}
+.finder{background:var(--bg) url(../images/branches/montana-huizucar/cadejo-montana-huizucar-terrace-breakfast-cervezacadejo.com.webp) 60% 45%/cover no-repeat;color:var(--ink)}
 .finder h2{color:var(--ink-dark);max-width:16ch}
 .finder .lead{color:rgba(18,19,18,.85)}
 .finder__q{margin:2.2rem 0 0}
@@ -451,11 +451,11 @@ h1,h2,h3{line-height:1.1}
 
 /* opening title in Bodoni Moda Regular (homepage only) */
 .hero__claim{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing:0;font-size:clamp(2.7rem,5.6vw,5.2rem);line-height:1.12;max-width:17ch}
-/* finder: Playa pool photo, darkened on the text side */
+/* finder: Montaña terrace photo, darkened on the text side */
 .finder{position:relative;isolation:isolate}
-.finder::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(12,13,12,.88) 0%,rgba(12,13,12,.72) 45%,rgba(12,13,12,.25) 80%,rgba(12,13,12,.1) 100%)}
+.finder::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(12,13,12,.9) 0%,rgba(12,13,12,.78) 45%,rgba(12,13,12,.35) 80%,rgba(12,13,12,.15) 100%)}
 @media (max-width:760px){.finder{background-position:62% 50%}.finder::before{background:rgba(12,13,12,.74)}}
-@media (max-width:760px){.finder{background-image:url(../images/branches/playa-sunzal/cadejo-playa-sunzal-pool-friends-sm-cervezacadejo.com.webp)}}
+@media (max-width:760px){.finder{background-image:url(../images/branches/montana-huizucar/cadejo-montana-huizucar-terrace-breakfast-sm-cervezacadejo.com.webp)}}
 .finder h2,.finder__q legend,.finder__results h3{color:var(--ink)}
 .finder .lead{color:var(--ink-soft)}
 .finder__q legend small{color:var(--ink-soft);opacity:1}
