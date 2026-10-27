@@ -543,12 +543,14 @@
       o.el.style.transform = 'translate3d(' + x.toFixed(1) + '%,' + ((1 - e) * 75).toFixed(1) + '%,0)' + (o.side === 'left' ? ' scaleX(-1)' : '');
       o.el.style.opacity = e.toFixed(2);
     });
-    /* legend pillars: tops show first, then they rise; the cut bottom of the drawing never comes into view */
+    /* legend pillars: start low and rise to their place as the section comes up the screen.
+       They never go above their box, so the cadejos on top are never cut; the bottom is cut by the section. */
     pillars.forEach(function(box){
       var img = box.firstChild, rb = box.getBoundingClientRect();
-      var maxRise = Math.max(0, img.offsetHeight * 0.84 - rb.height);
-      var kp = Math.min(1, Math.max(0, (h * 0.8 - rb.top) / (rb.height * 0.95)));
-      img.style.transform = 'translate3d(0,' + (-maxRise * kp).toFixed(1) + 'px,0)';
+      var rise = Math.min(rb.height * 0.45, img.offsetHeight * 0.5);
+      var kp = Math.min(1, Math.max(0, (h - rb.top) / (h * 0.8)));
+      kp = 1 - Math.pow(1 - kp, 2);
+      img.style.transform = 'translate3d(0,' + (rise * (1 - kp)).toFixed(1) + 'px,0)';
     });
     runners.forEach(function(o){
       var r = o.sec.getBoundingClientRect();
