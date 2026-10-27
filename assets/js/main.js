@@ -118,6 +118,31 @@
         var first = nx.querySelector('input'); if (first) first.focus({preventScroll:true});
       }
     });
+    /* button hint: an outline walks across the answers of the current question as you scroll,
+       so people see they are buttons. Stops once that question is answered. */
+    var hintOn = null;
+    function hint(){
+      var q = qs.filter(function(x){ return !x.classList.contains('is-waiting') && !x.querySelector('input:checked'); })[0];
+      var spans = q ? [].slice.call(q.querySelectorAll('.chip span')) : [];
+      var target = null;
+      if (spans.length){
+        var r = q.getBoundingClientRect(), vh = window.innerHeight;
+        if (r.bottom > 0 && r.top < vh){
+          var p = Math.min(0.999, Math.max(0, (vh * 0.92 - r.top) / (vh * 0.62)));
+          target = spans[Math.floor(p * spans.length)];
+        }
+      }
+      if (target !== hintOn){
+        if (hintOn) hintOn.classList.remove('is-hint');
+        if (target) target.classList.add('is-hint');
+        hintOn = target;
+      }
+    }
+    var hintQueued = false;
+    window.addEventListener('scroll', function(){ if (!hintQueued){ hintQueued = true; requestAnimationFrame(function(){ hintQueued = false; hint(); }); } }, {passive:true});
+    window.addEventListener('resize', hint);
+    form.addEventListener('change', function(){ setTimeout(hint, 650); });
+    hint();
     form.addEventListener('change', function(){
       var who = (form.querySelector('[name=who]:checked')||{}).value;
       var vibe = (form.querySelector('[name=vibe]:checked')||{}).value;

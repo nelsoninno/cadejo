@@ -502,3 +502,9 @@ h1,h2,h3{line-height:1.1}
 /* seasonal beers: centered title and logos */
 #beers .group-title,#cervezas .group-title{text-align:center}
 .seasonal{margin-left:auto;margin-right:auto}
+
+/* finder hint: one answer at a time gets a white outline and lifts, following the scroll */
+.chip span{transition:background .25s,color .25s,transform .35s cubic-bezier(.3,1.4,.5,1),box-shadow .35s}
+.chip span.is-hint,.chip span:hover{box-shadow:inset 0 0 0 2px var(--ink);transform:translateY(-3px)}
+.chip input:checked+span{box-shadow:none;transform:none}
+@media (prefers-reduced-motion:reduce){.chip span.is-hint{transform:none}}
