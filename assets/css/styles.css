@@ -63,7 +63,7 @@ p{margin:0 0 1em}
 .moment span{color:var(--ink-soft);font-size:.95rem}
 
 /* Experience finder: the one bold element */
-.finder{background:#B8B8B8 url(../images/textures/concrete-texture-cadejo-cervezacadejo.com.webp) repeat;background-size:1024px;color:var(--ink-dark)}
+.finder{background:var(--bg) url(../images/branches/playa-sunzal/cadejo-playa-sunzal-pool-friends-cervezacadejo.com.webp) 70% 40%/cover no-repeat;color:var(--ink)}
 .finder h2{color:var(--ink-dark);max-width:16ch}
 .finder .lead{color:rgba(18,19,18,.85)}
 .finder__q{margin:2.2rem 0 0}
@@ -451,9 +451,17 @@ h1,h2,h3{line-height:1.1}
 
 /* opening title in Bodoni Moda Regular (homepage only) */
 .hero__claim{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing:0;font-size:clamp(2.7rem,5.6vw,5.2rem);line-height:1.12;max-width:17ch}
-/* concrete finder: crisp grain on top of the soft concrete tile (no extra download) */
+/* finder: Playa pool photo, darkened on the text side */
 .finder{position:relative;isolation:isolate}
-.finder::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+.finder::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(12,13,12,.88) 0%,rgba(12,13,12,.72) 45%,rgba(12,13,12,.25) 80%,rgba(12,13,12,.1) 100%)}
+@media (max-width:760px){.finder{background-position:62% 50%}.finder::before{background:rgba(12,13,12,.74)}}
+@media (max-width:760px){.finder{background-image:url(../images/branches/playa-sunzal/cadejo-playa-sunzal-pool-friends-sm-cervezacadejo.com.webp)}}
+.finder h2,.finder__q legend,.finder__results h3{color:var(--ink)}
+.finder .lead{color:var(--ink-soft)}
+.finder__q legend small{color:var(--ink-soft);opacity:1}
+.chip span{border-color:rgba(245,242,236,.75);color:var(--ink);background:rgba(12,13,12,.35)}
+.chip input:checked+span{background:var(--ink);color:var(--ink-dark);border-color:var(--ink)}
+.chip input:focus-visible+span{outline-color:var(--ink)}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
 
 /* bottom runner: gray vector run cycle (4 frames from Cadejo's dog animation), plays only while the page scrolls */
