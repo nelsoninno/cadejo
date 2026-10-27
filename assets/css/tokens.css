@@ -30,11 +30,11 @@
      Montaña / Mansión / general pages use a soberer title font,
      body is any sans serif that fits, Montserrat is used sometimes.
      Veneer is not licensed for the web, so:
-       --font-display-sober = Antonio (in Cadejo's folder, SIL OFL)
+       --font-display-sober = Bebas Neue (Nelson, Oct 27: all titles in Bebas)
        --font-display-loud  = Bebas Neue (open version of their Bebas) + distressed texture in CSS
        --font-body          = Montserrat */
-  --font-display-sober: 'Antonio', 'Bebas Neue', Impact, sans-serif;
-  --font-display-loud:  'Bebas Neue', 'Antonio', Impact, sans-serif;
+  --font-display-sober: 'Bebas Neue', Impact, sans-serif;
+  --font-display-loud:  'Bebas Neue', Impact, sans-serif;
   --font-display:       var(--font-display-sober);
   --font-body:          'Montserrat', system-ui, sans-serif;
 
