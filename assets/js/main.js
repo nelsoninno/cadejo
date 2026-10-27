@@ -417,7 +417,7 @@
     var sec = moments.closest('section'); sec.classList.add('has-risers');
     ['left','right'].forEach(function(side){
       var im = document.createElement('img'); im.className = 'riser riser--' + side; im.alt = ''; im.setAttribute('aria-hidden','true');
-      im.src = base + 'assets/images/illustrations/cadejo-howling-cervezacadejo.com.svg';
+      im.src = base + 'assets/images/illustrations/cadejo-howling-dark-cervezacadejo.com.svg';
       sec.insertBefore(im, sec.firstChild);
       risers.push({el:im, sec:sec, side:side});
     });
@@ -449,7 +449,7 @@
       var e = k * k * (3 - 2 * k);
       var x = (1 - e) * 30 * (o.side === 'left' ? -1 : 1);
       o.el.style.transform = 'translate3d(' + x.toFixed(1) + '%,' + ((1 - e) * 75).toFixed(1) + '%,0)' + (o.side === 'left' ? ' scaleX(-1)' : '');
-      o.el.style.opacity = (e * 0.3).toFixed(2);
+      o.el.style.opacity = e.toFixed(2);
     });
     runners.forEach(function(o){
       var r = o.sec.getBoundingClientRect();
