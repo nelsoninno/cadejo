@@ -447,7 +447,4 @@ h1,h2,h3{line-height:1.1}
 .hero h1{font-family:var(--font-body);font-weight:500;letter-spacing:0;line-height:1.5}
 .brand img{width:auto;height:36px}
 @media (max-width:600px){.brand img{height:30px}}
-.hero__brand{flex-direction:column;align-items:flex-start;gap:1.2rem}
-.hero__logo{width:clamp(220px,32vw,460px);height:auto}
-@media (max-width:600px){.hero__logo{width:200px}}
-.motion .hero__logo{transform:translateY(16px) scale(.96)}
+.hero__logo{border-radius:50%}
