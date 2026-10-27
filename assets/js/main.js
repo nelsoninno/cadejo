@@ -212,7 +212,7 @@
   /* 4. The cadejo that walks beside you: a small running cadejo follows the scroll. */
   var runner = document.createElement('div');
   runner.className = 'runner'; runner.setAttribute('aria-hidden','true');
-  runner.innerHTML = '<div class="runner__track"><div class="runner__trail"></div></div><img class="runner__dog" alt="" src="' + base + 'assets/images/illustrations/cadejo-running-white-cervezacadejo.com.svg">';
+  runner.innerHTML = '<div class="runner__track"><div class="runner__trail"></div></div><span class="runner__dog"></span>'; /* a 4-frame run cycle drawn by CSS, so no teeter here */
   document.body.appendChild(runner);
   var dog = runner.querySelector('.runner__dog'), trail = runner.querySelector('.runner__trail');
 
@@ -225,9 +225,8 @@
     var y = window.scrollY, vh = window.innerHeight;
     var max = Math.max(1, document.documentElement.scrollHeight - vh);
     var p = Math.min(1, Math.max(0, y / max));
-    /* the cadejo faces left in the drawing, so it is flipped to run toward the pint */
     var w = runner.clientWidth - dog.clientWidth;
-    tee(dog, 'translateX(' + (p * w) + 'px)', true, 10);
+    dog.style.transform = 'translate3d(' + (p * w).toFixed(1) + 'px,0,0)';
     trail.style.transform = 'scaleX(' + p + ')';
     runner.classList.toggle('is-on', y > vh * 0.6 && p < 0.995);
     if (header){

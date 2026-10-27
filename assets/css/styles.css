@@ -455,3 +455,9 @@ h1,h2,h3{line-height:1.1}
 .finder{position:relative;isolation:isolate}
 .finder::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.55;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+
+/* bottom runner: gray vector run cycle (4 frames from Cadejo's dog animation), plays only while the page scrolls */
+.runner__dog{display:block;width:51px;height:30px;background:url(../images/illustrations/cadejo-run-cycle-gray-cervezacadejo.com.svg) 0 0/400% 100% no-repeat;animation:dogrun .36s steps(4) infinite;animation-play-state:paused;filter:drop-shadow(0 2px 5px rgba(0,0,0,.55))}
+.runner.is-running .runner__dog{animation:dogrun .36s steps(4) infinite;animation-play-state:running}
+@keyframes dogrun{from{background-position:0 0}to{background-position:133.333% 0}}
+@media (max-width:600px){.runner__dog{width:41px;height:24px}}
