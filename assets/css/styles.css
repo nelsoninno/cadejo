@@ -590,3 +590,32 @@ h2.slogan{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing
 
 /* location pages: each location's own logo above the name */
 .page-hero__logo{display:block;width:auto;height:auto;max-height:clamp(84px,11vw,130px);max-width:min(78vw,420px);margin:.4rem 0 1.1rem;filter:drop-shadow(0 4px 16px rgba(0,0,0,.6))}
+
+/* ===== batch 1 (Oct 29): events slideshow, talent band, social band, history and values ===== */
+.ev-slides{position:relative;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:var(--bg-soft)}
+.ev-slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity 1s ease,transform 6s linear}
+.ev-slides img.is-on{opacity:1;transform:scale(1)}
+.talent .split{align-items:center}
+.talent img{border-radius:var(--radius);aspect-ratio:4/3;object-fit:cover;width:100%}
+.talent .lead{margin-bottom:1.6rem}
+.social-band{position:relative;overflow:hidden;padding:clamp(3.5rem,8vw,6rem) 0;background:#151614;border-top:1px solid var(--line)}
+.social-band__logo{position:absolute;left:max(-90px,calc(50% - 760px));top:50%;width:min(44vw,380px);transform:translateY(-50%);opacity:.07;pointer-events:none}
+.social-band__inner{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:2rem}
+.social-band h2{font-size:clamp(2.6rem,6vw,4.6rem);margin:0 0 .5rem}
+.social-band p{margin:0;color:var(--ink-soft)}
+.social-band__icons{display:flex;gap:1rem}
+.social-band__icons a{display:flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:50%;border:1px solid rgba(245,242,236,.25);color:var(--ink);transition:background .25s,transform .25s}
+.social-band__icons a:hover{background:rgba(245,242,236,.12);transform:translateY(-3px)}
+.social-band__icons svg{width:26px;height:26px;fill:currentColor}
+.history h3{font-family:var(--font-display);font-weight:400;font-size:1.7rem;letter-spacing:.03em;margin:2rem 0 .4rem}
+.history__kicker{color:var(--ink);font-size:1.25rem}
+.mvv__top{display:grid;grid-template-columns:1fr 1.4fr;gap:1.2rem;margin-top:1.8rem}
+.mvv__card{border-radius:18px;padding:1.6rem 1.7rem;background:linear-gradient(160deg,#2a2622,#1a1918);border:1px solid rgba(245,242,236,.08)}
+.mvv__card h3{font-family:var(--font-display);font-weight:400;font-size:1.9rem;letter-spacing:.04em;margin:0 0 .5rem}
+.mvv__card p{margin:0;font-size:1.02rem;line-height:1.6}
+.mvv__card--mission{background:linear-gradient(160deg,#f2a93b,#d98a1c);color:#1a1310}
+.mvv__card--vision{background:linear-gradient(160deg,#df7f1b,#b85e10);color:#1a1310}
+.mvv__values-title{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.04em;margin:2.6rem 0 1rem}
+.mvv__values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem}
+.mvv__card--value{background:linear-gradient(160deg,#9a5d14,#7a470d);color:#f8efe2}
+@media (max-width:760px){.mvv__top,.mvv__values{grid-template-columns:1fr}.social-band__logo{opacity:.06;width:80vw;left:auto;right:-20vw}}

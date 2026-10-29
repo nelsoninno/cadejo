@@ -61,6 +61,14 @@
   }
   window.addEventListener('load', function(){ setTimeout(function(){ upgradeVideo(); upgradeFinder(); }, 1200); });
 
+  /* Events slideshow: a slow crossfade between event photos. */
+  [].forEach.call(document.querySelectorAll('[data-slides]'), function(box){
+    var ims = [].slice.call(box.querySelectorAll('img')), n = 0;
+    if (ims.length < 2 || reduce) return;
+    ims.forEach(function(im){ im.loading = 'eager'; });
+    setInterval(function(){ ims[n].classList.remove('is-on'); n = (n + 1) % ims.length; ims[n].classList.add('is-on'); }, 4200);
+  });
+
   /* Hero reel (photo fallback, only if a page still uses images). */
   var frames = [].slice.call(document.querySelectorAll('.hero__reel img'));
   var place = document.querySelector('.hero__place');
