@@ -619,3 +619,6 @@ h2.slogan{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing
 .mvv__values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem}
 .mvv__card--value{background:linear-gradient(160deg,#9a5d14,#7a470d);color:#f8efe2}
 @media (max-width:760px){.mvv__top,.mvv__values{grid-template-columns:1fr}.social-band__logo{opacity:.06;width:80vw;left:auto;right:-20vw}}
+
+/* jobs page: keep the apply button on one line */
+.job .btn{white-space:nowrap;flex-shrink:0}
