@@ -505,16 +505,19 @@
   var runners = [];
   var moments = document.querySelector('.moments');
   var risers = [];
-  if (moments){
-    /* two cadejos rise from the bottom corners as the section comes in, looking toward the middle */
-    var sec = moments.closest('section'); sec.classList.add('has-risers');
+  /* two cadejos rise from the bottom corners as the section comes in, looking toward the middle.
+     Used by the "Distintos lugares" section and by any section marked data-risers (the legend page top). */
+  var riserSecs = [].slice.call(document.querySelectorAll('[data-risers]'));
+  if (moments) riserSecs.unshift(moments.closest('section'));
+  riserSecs.forEach(function(sec){
+    sec.classList.add('has-risers');
     ['left','right'].forEach(function(side){
       var im = document.createElement('img'); im.className = 'riser riser--' + side; im.alt = ''; im.setAttribute('aria-hidden','true');
       im.src = base + 'assets/images/illustrations/cadejo-howling-dark-cervezacadejo.com.svg';
       sec.insertBefore(im, sec.firstChild);
       risers.push({el:im, sec:sec, side:side});
     });
-  }
+  });
   [].forEach.call(document.querySelectorAll('.legend-pair'), function(pair){
     var sec = pair.parentNode;
     runners.push({el:pair.querySelector('.legend-pair__white'), sec:sec, from:-50, to:105, flip:true, deg:7});

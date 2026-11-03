@@ -622,3 +622,19 @@ h2.slogan{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing
 
 /* jobs page: keep the apply button on one line */
 .job .btn{white-space:nowrap;flex-shrink:0}
+
+/* legend page: top section gets the two howling cadejos (like "Distintos lugares"); they rise in on load */
+.page-hero--legend.has-risers{min-height:min(92vh,820px);padding-bottom:clamp(6rem,14vw,11rem)}
+.page-hero--legend .riser{transition:transform 1.6s cubic-bezier(.2,.7,.2,1),opacity 1.6s ease}
+.page-hero--legend .legend-text{max-width:min(620px,52vw);margin:0 auto}
+.page-hero--legend .page-hero__content{text-align:center}
+.page-hero--legend .legend-text p{text-align:left}
+@media (max-width:860px){.page-hero--legend .legend-text{max-width:none}.page-hero--legend.has-risers{padding-bottom:58vw}}
+/* legend page: "Nuestra historia" uses the legend pillars; text in the middle column */
+.legend-band.history .legend-split__text{max-width:min(520px,38vw)}
+.legend-band.history h3{text-align:left}
+@media (max-width:860px){.legend-band.history .legend-split__text{max-width:none}}
+/* mission, vision and values in grays */
+.mvv__card--mission{background:linear-gradient(160deg,#5B5652,#47433F);color:var(--ink)}
+.mvv__card--vision{background:linear-gradient(160deg,#4A4643,#373431);color:var(--ink)}
+.mvv__card--value{background:linear-gradient(160deg,#2E2C2A,#232120);color:var(--ink);border:1px solid rgba(245,242,236,.1)}
