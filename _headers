@@ -1,2 +1,5 @@
 https://cadejo.pages.dev/*
   X-Robots-Tag: noindex
+
+/menus/*
+  X-Robots-Tag: noindex

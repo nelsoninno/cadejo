@@ -638,3 +638,10 @@ h2.slogan{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;letter-spacing
 .mvv__card--mission{background:linear-gradient(160deg,#5B5652,#47433F);color:var(--ink)}
 .mvv__card--vision{background:linear-gradient(160deg,#4A4643,#373431);color:var(--ink)}
 .mvv__card--value{background:linear-gradient(160deg,#2E2C2A,#232120);color:var(--ink);border:1px solid rgba(245,242,236,.1)}
+
+/* location pages: menu as PDF, one row of buttons under the menu title */
+.menu__pdf-row{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.3rem;margin:0 0 1.8rem;font-size:.95rem}
+.menu__pdf-row span{color:var(--ink-soft)}
+.menu__pdf-row a{display:inline-flex;align-items:center;gap:.4rem;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.menu__pdf-row a:hover{color:var(--highlight)}
+.menu__pdf-row svg{width:18px;height:18px;flex:none}
